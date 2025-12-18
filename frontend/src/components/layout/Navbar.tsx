@@ -5,13 +5,13 @@ import { useState } from 'react';
 import { Menu, X, Search, Cpu } from 'lucide-react';
 
 const navigation = [
-  { name: 'Products', href: '/products' },
-  { name: 'Jobs', href: '/jobs' },
-  { name: 'Research', href: '/research' },
-  { name: 'Learning', href: '/learning' },
-  { name: 'MCP', href: '/mcp' },
-  { name: 'Community', href: '/community' },
+  { name: 'About', href: '/about' },
+  { name: 'LEARN', href: '/learn' },
+  { name: 'AI Marketplace', href: '/ai-marketplace' },
+  { name: 'Programs', href: '/programs' },
   { name: 'Events', href: '/events' },
+  { name: 'Jobs', href: '/jobs' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 export function Navbar() {
