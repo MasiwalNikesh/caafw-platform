@@ -10,6 +10,8 @@ from . import (
     events,
     investments,
     search,
+    auth,
+    quiz,
 )
 
 __all__ = [
@@ -23,4 +25,6 @@ __all__ = [
     "events",
     "investments",
     "search",
+    "auth",
+    "quiz",
 ]

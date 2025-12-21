@@ -77,6 +77,9 @@ class Event(Base, TimestampMixin):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     status: Mapped[Optional[str]] = mapped_column(String(50))  # upcoming, live, ended, cancelled
 
+    # AI Readiness Level (for personalization)
+    level: Mapped[Optional[str]] = mapped_column(String(20))  # novice, beginner, intermediate, expert
+
     # Dates
     starts_at: Mapped[Optional[datetime]] = mapped_column()
     ends_at: Mapped[Optional[datetime]] = mapped_column()

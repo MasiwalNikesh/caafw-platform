@@ -131,6 +131,25 @@ export default function LearnPage() {
         </div>
       </div>
 
+      {/* Featured Video */}
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 text-center mb-8">
+            Watch & Learn
+          </h2>
+          <div className="aspect-video rounded-xl overflow-hidden shadow-lg border border-gray-200">
+            <iframe
+              src="https://drive.google.com/file/d/1MQ4Pevf_KfcQglR_tv0bocsNhVnwmz0OI9u5n5cpYJQ/preview"
+              width="100%"
+              height="100%"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              className="w-full h-full"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
       {/* Learning Beyond Coding */}
       <div className="bg-gray-50 py-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">

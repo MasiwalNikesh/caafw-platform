@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import {
   GraduationCap,
-  FlaskConical,
+  Lightbulb,
   Shield,
   BookOpen,
   Users,
   Clock,
   Award,
-  Beaker,
+  Rocket,
   MessageSquare,
   Briefcase,
   ShoppingCart,
@@ -17,14 +17,15 @@ import {
   FileCheck,
   Search,
   FileText,
-  Sparkles
+  Sparkles,
+  Layers
 } from 'lucide-react';
 
 type TabId = 'education' | 'labs' | 'compliance';
 
 const tabs = [
   { id: 'education' as TabId, name: 'Education', icon: GraduationCap },
-  { id: 'labs' as TabId, name: 'Applied Labs', icon: FlaskConical },
+  { id: 'labs' as TabId, name: 'Applied Labs', icon: Lightbulb },
   { id: 'compliance' as TabId, name: 'Compliance', icon: Shield },
 ];
 
@@ -145,46 +146,67 @@ export default function ProgramsPage() {
   const [activeTab, setActiveTab] = useState<TabId>('education');
 
   return (
-    <div className="bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-amber-50 to-white">
-        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+      <section className="relative overflow-hidden bg-gradient-to-br from-amber-500 via-yellow-500 to-amber-600 pt-24 sm:pt-28 pb-16">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
+          <div className="absolute bottom-0 -left-20 h-60 w-60 rounded-full bg-yellow-400/20 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+              <Layers className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
               Our Programs
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              From foundational learning to advanced labs and compliance support— everything you need for responsible AI adoption.
-            </p>
+          </div>
+          <p className="text-lg text-amber-100 max-w-2xl">
+            From foundational learning to advanced labs and compliance support—everything you need for responsible AI adoption.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
+              Education & Training
+            </span>
+            <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
+              Hands-on Labs
+            </span>
+            <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
+              Compliance Support
+            </span>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Tabs */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="flex justify-center">
-          <div className="inline-flex rounded-full bg-gray-100 p-1">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`
-                  flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all
-                  ${activeTab === tab.id
-                    ? 'bg-white text-gray-900 shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900'
-                  }
-                `}
-              >
-                <tab.icon className="h-4 w-4" />
-                {tab.name}
-              </button>
-            ))}
+      {/* Main Content */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 -mt-8">
+        {/* Tabs Card */}
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+          <div className="flex justify-center">
+            <div className="inline-flex rounded-full bg-gray-100 p-1.5">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`
+                    flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all
+                    ${activeTab === tab.id
+                      ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-lg shadow-amber-500/25'
+                      : 'text-gray-600 hover:text-gray-900'
+                    }
+                  `}
+                >
+                  <tab.icon className="h-4 w-4" />
+                  {tab.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Tab Content */}
-        <div className="mt-12 pb-24">
+        <div className="pb-8">
           {activeTab === 'education' && <EducationTab />}
           {activeTab === 'labs' && <LabsTab />}
           {activeTab === 'compliance' && <ComplianceTab />}
@@ -197,26 +219,26 @@ export default function ProgramsPage() {
 function EducationTab() {
   return (
     <div>
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">{educationPrograms.title}</h2>
-        <p className="mt-4 text-gray-600 max-w-2xl mx-auto">{educationPrograms.description}</p>
+        <p className="mt-2 text-gray-600 max-w-2xl mx-auto">{educationPrograms.description}</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+      <div className="grid gap-6 md:grid-cols-2">
         {educationPrograms.programs.map((program) => (
           <div
             key={program.name}
-            className="rounded-xl border border-gray-200 bg-white p-6 hover:border-amber-300 hover:shadow-md transition-all"
+            className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-amber-50 rounded-lg">
+                <div className="p-2 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl">
                   <program.icon className="h-5 w-5 text-amber-700" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">{program.name}</h3>
               </div>
               {program.duration && (
-                <span className="flex items-center gap-1 text-sm text-amber-700">
+                <span className="flex items-center gap-1 text-sm text-amber-700 bg-amber-50 px-3 py-1 rounded-full">
                   <Clock className="h-4 w-4" />
                   {program.duration}
                 </span>
@@ -227,7 +249,7 @@ function EducationTab() {
               <ul className="space-y-2 mb-6">
                 {program.items.map((item) => (
                   <li key={item} className="flex items-center gap-2 text-sm text-gray-600">
-                    <span className="text-amber-600">•</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                     {item}
                   </li>
                 ))}
@@ -236,7 +258,7 @@ function EducationTab() {
               <p className="text-sm text-gray-600 mb-6">{program.description}</p>
             )}
 
-            <button className="w-full rounded-lg border border-gray-300 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <button className="w-full rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
               {program.cta}
             </button>
           </div>
@@ -244,28 +266,28 @@ function EducationTab() {
       </div>
 
       {/* Featured Program */}
-      <div className="mt-8 max-w-5xl mx-auto">
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-6">
+      <div className="mt-8">
+        <div className="rounded-2xl bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-200 p-6">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-amber-100 rounded-lg">
+              <div className="p-2 bg-amber-100 rounded-xl">
                 <educationPrograms.featured.icon className="h-5 w-5 text-amber-700" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900">{educationPrograms.featured.name}</h3>
             </div>
-            <span className="flex items-center gap-1 text-sm text-amber-700 bg-amber-100 px-2 py-1 rounded">
+            <span className="text-sm text-amber-700 bg-amber-100 px-3 py-1 rounded-full font-medium">
               {educationPrograms.featured.badge}
             </span>
           </div>
           <p className="text-sm text-gray-600 mb-6">{educationPrograms.featured.description}</p>
-          <button className="w-full rounded-lg border border-gray-300 bg-white py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <button className="rounded-xl border border-amber-300 bg-white py-2.5 px-6 text-sm font-medium text-amber-700 hover:bg-amber-50 transition-colors">
             {educationPrograms.featured.cta}
           </button>
         </div>
       </div>
 
       <div className="mt-8 text-center">
-        <button className="rounded-lg bg-amber-700 px-8 py-3 text-sm font-medium text-white hover:bg-amber-800 transition-colors">
+        <button className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 px-8 py-3 text-sm font-medium text-white hover:opacity-90 transition-all hover:shadow-lg hover:shadow-amber-500/25">
           Download Prospectus
         </button>
       </div>
@@ -276,25 +298,25 @@ function EducationTab() {
 function LabsTab() {
   return (
     <div>
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">{labsPrograms.title}</h2>
-        <p className="mt-4 text-gray-600 max-w-2xl mx-auto">{labsPrograms.description}</p>
+        <p className="mt-2 text-gray-600 max-w-2xl mx-auto">{labsPrograms.description}</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+      <div className="grid gap-6 md:grid-cols-2">
         {labsPrograms.labs.map((lab) => (
           <div
             key={lab.name}
-            className="rounded-xl border border-gray-200 bg-white p-6 hover:border-amber-300 hover:shadow-md transition-all"
+            className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-amber-50 rounded-lg">
+              <div className="p-2 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl">
                 <lab.icon className="h-5 w-5 text-amber-700" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900">{lab.name}</h3>
             </div>
             <p className="text-sm text-gray-600 mb-6">{lab.description}</p>
-            <button className="w-full rounded-lg border border-gray-300 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            <button className="w-full rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
               {lab.cta}
             </button>
           </div>
@@ -302,7 +324,8 @@ function LabsTab() {
       </div>
 
       <div className="mt-8 text-center">
-        <button className="rounded-lg bg-amber-700 px-8 py-3 text-sm font-medium text-white hover:bg-amber-800 transition-colors">
+        <button className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 px-8 py-3 text-sm font-medium text-white hover:opacity-90 transition-all hover:shadow-lg hover:shadow-amber-500/25">
+          <Rocket className="h-4 w-4" />
           Submit a Use Case
         </button>
       </div>
@@ -313,19 +336,19 @@ function LabsTab() {
 function ComplianceTab() {
   return (
     <div>
-      <div className="text-center mb-12">
+      <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">{compliancePrograms.title}</h2>
-        <p className="mt-4 text-gray-600 max-w-2xl mx-auto">{compliancePrograms.description}</p>
+        <p className="mt-2 text-gray-600 max-w-2xl mx-auto">{compliancePrograms.description}</p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
+      <div className="grid gap-6 md:grid-cols-2">
         {compliancePrograms.programs.map((program) => (
           <div
             key={program.name}
-            className="rounded-xl border border-gray-200 bg-white p-6 hover:border-amber-300 hover:shadow-md transition-all"
+            className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl hover:-translate-y-1 transition-all"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-amber-50 rounded-lg">
+              <div className="p-2 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl">
                 <program.icon className="h-5 w-5 text-amber-700" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900">{program.name}</h3>
@@ -337,7 +360,7 @@ function ComplianceTab() {
                 {program.badges.map((badge) => (
                   <span
                     key={badge}
-                    className="text-xs px-2 py-1 rounded border border-amber-200 text-amber-700 bg-amber-50"
+                    className="text-xs px-3 py-1 rounded-full border border-amber-200 text-amber-700 bg-amber-50 font-medium"
                   >
                     {badge}
                   </span>
@@ -345,7 +368,7 @@ function ComplianceTab() {
               </div>
             )}
 
-            <button className="w-full rounded-lg border border-gray-300 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-auto">
+            <button className="w-full rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-auto">
               {program.cta}
             </button>
           </div>
@@ -353,7 +376,8 @@ function ComplianceTab() {
       </div>
 
       <div className="mt-8 text-center">
-        <button className="rounded-lg bg-amber-700 px-8 py-3 text-sm font-medium text-white hover:bg-amber-800 transition-colors">
+        <button className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 px-8 py-3 text-sm font-medium text-white hover:opacity-90 transition-all hover:shadow-lg hover:shadow-amber-500/25">
+          <BadgeCheck className="h-4 w-4" />
           Apply for AI Trust Seal
         </button>
       </div>

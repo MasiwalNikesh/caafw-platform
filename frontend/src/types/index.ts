@@ -392,3 +392,54 @@ export interface SearchResponse {
   results: SearchResult[];
   by_type: Record<string, number>;
 }
+
+// User types
+export interface User {
+  id: number;
+  email: string;
+  name?: string;
+  avatar_url?: string;
+  is_verified: boolean;
+  created_at: string;
+}
+
+export interface UserProfile {
+  id: number;
+  user_id: number;
+  ai_level?: 'novice' | 'beginner' | 'intermediate' | 'expert';
+  ai_level_score?: number;
+  has_completed_quiz: boolean;
+  auto_filter_content: boolean;
+  interests?: string[];
+  learning_goals?: string[];
+}
+
+export interface UserWithProfile extends User {
+  profile?: UserProfile;
+}
+
+// Quiz types
+export interface QuizQuestion {
+  id: number;
+  question_text: string;
+  question_type: 'multiple_choice' | 'self_assessment' | 'multi_select';
+  category: string;
+  options?: { id: string; text: string }[];
+  scale_labels?: Record<string, string>;
+  order: number;
+}
+
+export interface QuizAnswer {
+  question_id: number;
+  answer: string;
+}
+
+export interface QuizResult {
+  id: number;
+  total_score: number;
+  max_possible_score: number;
+  percentage: number;
+  computed_level: 'novice' | 'beginner' | 'intermediate' | 'expert';
+  category_scores?: Record<string, number>;
+  created_at: string;
+}

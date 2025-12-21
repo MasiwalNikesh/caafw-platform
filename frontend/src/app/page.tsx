@@ -1,177 +1,449 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import {
-  Cpu,
-  Briefcase,
-  FileText,
-  BookOpen,
-  Server,
+  MessageSquare,
+  Mail,
+  Globe,
   Users,
+  Sparkles,
+  BookOpen,
+  Shield,
+  Briefcase,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Star,
+  Play,
+  Compass,
+  Rocket,
+  GraduationCap,
+  Building2,
+  Lightbulb,
+  Target,
+  Brain,
+  Zap,
+  BarChart3,
+  Award,
+  Clock,
+  CheckCircle2,
+  Quote,
   Calendar,
   TrendingUp,
+  FileText,
+  Monitor,
+  UserPlus,
+  Send,
+  Link2,
 } from 'lucide-react';
 
-const features = [
+// Stats
+const stats = [
+  { value: '100+', label: 'Organizations Impacted' },
+  { value: '50+', label: 'Workshops Delivered' },
+  { value: '15+', label: 'Project Partners' },
+];
+
+// Community Pillars
+const pillars = [
   {
-    name: 'AI Products',
-    description: 'Discover the latest AI tools and products',
-    href: '/products',
-    icon: Cpu,
-    color: 'bg-blue-500',
+    name: 'Discover',
+    description: 'Explore AI opportunities and possibilities through curated resources, success stories, and insights from industry leaders and practitioners.',
+    icon: Compass,
+    features: ['AI Learning Library', 'Industry Insights', 'Success Stories', 'Emerging trends & tools', 'AI Marketplace'],
+    color: 'from-blue-500 to-cyan-500',
   },
   {
-    name: 'Jobs',
-    description: 'Find AI and ML job opportunities',
-    href: '/jobs',
-    icon: Briefcase,
-    color: 'bg-green-500',
-  },
-  {
-    name: 'Research',
-    description: 'Latest papers from arXiv and more',
-    href: '/research',
-    icon: FileText,
-    color: 'bg-purple-500',
-  },
-  {
-    name: 'Learning',
-    description: 'Courses and tutorials to level up',
-    href: '/learning',
+    name: 'LEARN',
+    description: 'Comprehensive training programs, workshops, and resources designed to build AI literacy and technical capabilities across all organizational levels.',
     icon: BookOpen,
-    color: 'bg-orange-500',
+    features: ['Interactive workshops and seminars', 'Online learning resources', 'Certification programs', 'Custom training for teams'],
+    color: 'from-purple-500 to-pink-500',
   },
   {
-    name: 'MCP Servers',
-    description: 'Model Context Protocol servers',
-    href: '/mcp',
-    icon: Server,
-    color: 'bg-pink-500',
+    name: 'Experiment',
+    description: 'Safe sandbox environments and practical labs where organizations can test, prototype, and validate AI solutions before full-scale deployment.',
+    icon: Lightbulb,
+    features: ['Sandboxes and servers', 'Proof-of-concept support', 'Innovation labs', 'Guided prototyping'],
+    color: 'from-orange-500 to-amber-500',
   },
   {
-    name: 'Community',
-    description: 'HN, Reddit, and GitHub trending',
-    href: '/community',
-    icon: Users,
-    color: 'bg-cyan-500',
+    name: 'Comply',
+    description: 'Expert guidance on navigating AI regulations, ethical frameworks, and industry standards to ensure responsible and compliant AI adoption.',
+    icon: Shield,
+    features: ['Regulatory guidance', 'Ethics Resources', 'Risk assessment tools', 'Compliance documentation'],
+    color: 'from-green-500 to-emerald-500',
   },
   {
-    name: 'Events',
-    description: 'AI conferences and meetups',
-    href: '/events',
-    icon: Calendar,
-    color: 'bg-yellow-500',
-  },
-  {
-    name: 'Investments',
-    description: 'AI startup funding and companies',
-    href: '/investments',
+    name: 'Grow',
+    description: 'Scale your startup with strategic support covering startup spotlight, investor insights, and innovation cohorts to accelerate your growth journey.',
     icon: TrendingUp,
-    color: 'bg-red-500',
+    features: ['Startup showcase', 'Investor network', 'Innovation Scouts with CFIs', 'Startup accelerator'],
+    color: 'from-indigo-500 to-violet-500',
+  },
+  {
+    name: 'Work',
+    description: 'Connect to opportunities, collaborate on projects, and access tools and resources to implement AI solutions in real-world business scenarios.',
+    icon: Briefcase,
+    features: ['Project collaborator', 'Job connections', 'Partnership integration', 'Opportunity support'],
+    color: 'from-rose-500 to-red-500',
+  },
+];
+
+// Programs
+const programs = [
+  {
+    title: 'Community Workshops',
+    frequency: 'Monthly',
+    description: 'Regular collaborative sessions bringing together AI practitioners, business leaders, and technology enthusiasts to share knowledge and experiences.',
+    icon: Users,
+    badge: null,
+  },
+  {
+    title: 'Innovation Incubator',
+    frequency: 'Quarterly Cohorts',
+    description: 'Structured programs supporting Small and Medium Businesses in developing and implementing AI-driven solutions with expert mentorship and technical resources.',
+    icon: Rocket,
+    badge: 'Applications Open',
+  },
+  {
+    title: 'Executive Briefings',
+    frequency: 'Bi-monthly',
+    description: 'Focused sessions for leadership teams on AI strategy, governance, and organizational transformation in the age of artificial intelligence.',
+    icon: Monitor,
+    badge: null,
+  },
+  {
+    title: 'Industry Partnerships',
+    frequency: 'Ongoing',
+    description: 'Collaborative initiatives with industry leaders, academic institutions, and regulatory bodies to advance AI best practices and standards.',
+    icon: Link2,
+    badge: 'Now accepting applications',
+  },
+];
+
+// Get Involved options
+const getInvolvedOptions = [
+  {
+    title: 'Subscribe',
+    description: 'Get updates on events and resources',
+    icon: Mail,
+    href: '/subscribe',
+    color: 'from-blue-500 to-cyan-500',
+  },
+  {
+    title: 'Events',
+    description: 'Join workshops, webinars & meetups',
+    icon: Calendar,
+    href: '/events',
+    color: 'from-purple-500 to-pink-500',
+  },
+  {
+    title: 'Join Community',
+    description: 'Connect with peers and practitioners',
+    icon: Users,
+    href: '/community',
+    color: 'from-orange-500 to-amber-500',
+  },
+];
+
+// Values
+const values = [
+  {
+    title: 'Accessibility',
+    description: 'Making AI education and resources available to all organizations regardless of size or budget',
+    icon: Users,
+  },
+  {
+    title: 'Responsibility',
+    description: 'Promoting ethical AI practices and ensuring compliance with evolving regulations',
+    icon: Shield,
+  },
+  {
+    title: 'Collaboration',
+    description: 'Building a community where knowledge sharing and connections drive innovation',
+    icon: Link2,
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="bg-white">
-      {/* Hero section */}
-      <div className="relative isolate overflow-hidden bg-gradient-to-b from-indigo-100/20">
-        <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
-          <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl lg:flex-shrink-0 lg:pt-8">
-            <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Centre for Applied AI and Future of Work
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white pt-24 sm:pt-28 pb-16">
+        {/* Background decoration */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-100 opacity-50 blur-3xl" />
+          <div className="absolute top-20 -left-20 h-60 w-60 rounded-full bg-blue-100 opacity-50 blur-3xl" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
+          {/* Main headline */}
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight">
+              Centre for{' '}
+              <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                Applied AI
+              </span>
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Your comprehensive hub for AI products, jobs, research, learning resources,
-              and community insights. Preparing you for the future of work.
+            <p className="mt-4 text-xl sm:text-2xl font-medium text-gray-700">
+              Applied AI Community for Future-Ready SMBs & Innovators
             </p>
-            <div className="mt-10 flex items-center gap-x-6">
+            <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+              Building an inclusive community for SMB and AI enthusiasts—learn, experiment, and adopt AI responsibly to save time, grow sustainably, and build customer trust.
+            </p>
+
+            {/* Tags */}
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <span className="px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm font-medium border border-purple-100">
+                Education & Reskilling
+              </span>
+              <span className="px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100">
+                Applied AI Labs
+              </span>
+              <span className="px-4 py-2 rounded-full bg-green-50 text-green-700 text-sm font-medium border border-green-100">
+                Responsible AI & Compliance
+              </span>
+            </div>
+
+            {/* CTA buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/products"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                href="/register"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all hover:-translate-y-0.5"
               >
-                Explore Products
+                Join Us
               </Link>
               <Link
-                href="/research"
-                className="text-sm font-semibold leading-6 text-gray-900"
+                href="/quiz"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-gray-700 border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all"
               >
-                Browse Research <span aria-hidden="true">→</span>
+                <Sparkles className="h-5 w-5 text-purple-600" />
+                AI Readiness Quiz
+              </Link>
+              <Link
+                href="/events"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-gray-700 border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all"
+              >
+                <Calendar className="h-5 w-5" />
+                Events
               </Link>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Features section */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">
-            Everything AI
-          </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            All the resources you need
-          </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            From discovering new tools to finding your next job, we aggregate
-            the best AI resources from across the web.
-          </p>
-        </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-4 md:grid-cols-2">
-            {features.map((feature) => (
-              <Link
-                key={feature.name}
-                href={feature.href}
-                className="group relative rounded-2xl border border-gray-200 p-6 hover:border-indigo-500 hover:shadow-lg transition-all duration-200"
-              >
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <div
-                    className={`${feature.color} rounded-lg p-2 text-white group-hover:scale-110 transition-transform`}
-                  >
-                    <feature.icon className="h-5 w-5" aria-hidden="true" />
-                  </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-4 text-base leading-7 text-gray-600">
-                  {feature.description}
-                </dd>
-              </Link>
-            ))}
-          </dl>
-        </div>
-      </div>
-
-      {/* Stats section */}
-      <div className="bg-gray-900 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:max-w-none">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                Trusted by AI enthusiasts worldwide
-              </h2>
-              <p className="mt-4 text-lg leading-8 text-gray-300">
-                We aggregate data from the best sources to bring you quality content
-              </p>
-            </div>
-            <dl className="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { label: 'AI Products', value: '20,000+' },
-                { label: 'Research Papers', value: '100,000+' },
-                { label: 'Jobs Listed', value: '10,000+' },
-                { label: 'MCP Servers', value: '1,000+' },
-              ].map((stat) => (
-                <div key={stat.label} className="flex flex-col bg-white/5 p-8">
-                  <dt className="text-sm font-semibold leading-6 text-gray-300">
-                    {stat.label}
-                  </dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-white">
+            {/* Stats */}
+            <div className="mt-12 flex flex-wrap justify-center gap-8 sm:gap-12">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                     {stat.value}
-                  </dd>
+                  </p>
+                  <p className="mt-1 text-sm text-gray-600">{stat.label}</p>
                 </div>
               ))}
-            </dl>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-20 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              Our Mission
+            </h2>
+            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+              We bridge the gap between AI innovation and practical business implementation, ensuring Small and Medium Businesses can harness AI's potential while maintaining ethical standards and regulatory compliance.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 mt-12">
+            {/* Why We Exist */}
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-3xl p-8 border border-purple-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Why We Exist</h3>
+              <p className="text-gray-600 leading-relaxed">
+                The rapid advancement of AI technology has created both unprecedented opportunities and challenges for small and medium enterprises. Many organizations lack the resources, expertise, or guidance to navigate this transformation effectively.
+              </p>
+              <p className="text-gray-600 leading-relaxed mt-4">
+                We provide a trusted platform that democratizes access to AI knowledge, tools, and best practices, ensuring no business is left behind in the AI revolution.
+              </p>
+            </div>
+
+            {/* What We Stand For */}
+            <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-3xl p-8 border border-gray-100">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">What We Stand For</h3>
+              <div className="space-y-6">
+                {values.map((value) => (
+                  <div key={value.title} className="flex gap-4">
+                    <div className="p-2 rounded-xl bg-white shadow-sm h-fit">
+                      <value.icon className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{value.title}</h4>
+                      <p className="text-sm text-gray-600 mt-1">{value.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Pillars Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              Key Community Pillars
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              A comprehensive approach to responsible AI adoption
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {pillars.map((pillar) => (
+              <div
+                key={pillar.name}
+                className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-all hover:-translate-y-1"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className={`p-3 rounded-xl bg-gradient-to-br ${pillar.color}`}>
+                    <pillar.icon className="h-6 w-6 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">{pillar.name}</h3>
+                </div>
+                <p className="text-gray-600 text-sm mb-4">{pillar.description}</p>
+                <ul className="space-y-2">
+                  {pillar.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2 text-sm text-gray-600">
+                      <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Programs Section */}
+      <section className="py-20 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              Our Programs
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Diverse initiatives designed to support your AI journey at every stage
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {programs.map((program) => (
+              <div
+                key={program.title}
+                className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50">
+                      <program.icon className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900">{program.title}</h3>
+                      <p className="text-sm text-purple-600 font-medium">{program.frequency}</p>
+                    </div>
+                  </div>
+                  {program.badge && (
+                    <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                      {program.badge}
+                    </span>
+                  )}
+                </div>
+                <p className="text-gray-600 text-sm">{program.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/events"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-8 py-4 font-semibold text-white shadow-lg shadow-purple-500/30 hover:shadow-xl transition-all"
+            >
+              View All Programs & Events
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Get Involved Section */}
+      <section className="py-20 bg-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              Get Involved
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Join our community and start your AI transformation journey today
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {getInvolvedOptions.map((option) => (
+              <Link
+                key={option.title}
+                href={option.href}
+                className="group flex flex-col items-center p-8 rounded-2xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-purple-200 hover:shadow-lg transition-all hover:-translate-y-1"
+              >
+                <div className={`p-4 rounded-2xl bg-gradient-to-br ${option.color} mb-4`}>
+                  <option.icon className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">{option.title}</h3>
+                <p className="text-gray-600 text-sm text-center mt-2">{option.description}</p>
+                <span className="mt-4 text-purple-600 font-medium group-hover:underline">
+                  Learn more →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partner With Us Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600 to-indigo-700 p-8 md:p-12 text-center">
+            {/* Background decoration */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-400/20 rounded-full blur-2xl" />
+
+            <div className="relative">
+              <div className="inline-flex p-4 rounded-2xl bg-white/10 backdrop-blur-sm mb-6">
+                <Link2 className="h-10 w-10 text-white" />
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                Partner With Us
+              </h2>
+              <p className="text-lg text-purple-100 max-w-2xl mx-auto mb-8">
+                Are you an organization, academic institution, or industry expert interested in collaborating? Let's work together to shape the future of responsible AI adoption.
+              </p>
+              <Link
+                href="/partnerships"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-purple-700 shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all"
+              >
+                Explore Partnership Opportunities
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

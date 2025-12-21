@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ExternalLink, Star, MessageSquare } from 'lucide-react';
+import { ExternalLink, Star, MessageSquare, Package, Sparkles } from 'lucide-react';
 import { productsAPI } from '@/lib/api';
 import { Product, PaginatedResponse } from '@/types';
 import { formatNumber, formatRelativeTime, truncate } from '@/lib/utils';
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { SearchInput } from '@/components/ui/SearchInput';
 import { Pagination } from '@/components/ui/Pagination';
@@ -29,62 +28,94 @@ export default function ProductsPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">AI Products</h1>
-        <p className="mt-2 text-gray-600">
-          Discover the latest AI tools and products from Product Hunt and more
-        </p>
-      </div>
-
-      {/* Filters */}
-      <div className="mb-6 flex flex-col sm:flex-row gap-4">
-        <SearchInput
-          value={search}
-          onChange={setSearch}
-          placeholder="Search products..."
-          className="flex-1 max-w-md"
-        />
-        <select
-          value={pricingFilter}
-          onChange={(e) => setPricingFilter(e.target.value)}
-          className="rounded-lg border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          <option value="">All Pricing</option>
-          <option value="free">Free</option>
-          <option value="freemium">Freemium</option>
-          <option value="paid">Paid</option>
-        </select>
-      </div>
-
-      {/* Results */}
-      {isLoading ? (
-        <ListSkeleton count={6} />
-      ) : (
-        <>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {data?.items.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 pt-24 sm:pt-28 pb-16">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
+          <div className="absolute bottom-0 -left-20 h-60 w-60 rounded-full bg-blue-400/20 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+              <Package className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              AI Products
+            </h1>
           </div>
+          <p className="text-lg text-blue-100 max-w-2xl">
+            Discover the latest AI tools and products from Product Hunt and more
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
+              {data?.total || 0}+ Products
+            </span>
+            <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
+              Free & Paid Options
+            </span>
+            <span className="px-4 py-2 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
+              Trending Tools
+            </span>
+          </div>
+        </div>
+      </section>
 
-          {data && data.total_pages > 1 && (
-            <div className="mt-8">
-              <Pagination
-                currentPage={page}
-                totalPages={data.total_pages}
-                onPageChange={setPage}
-              />
-            </div>
-          )}
+      {/* Main Content */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 -mt-8">
+        {/* Filters Card */}
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <SearchInput
+              value={search}
+              onChange={setSearch}
+              placeholder="Search products..."
+              className="flex-1 max-w-md"
+            />
+            <select
+              value={pricingFilter}
+              onChange={(e) => setPricingFilter(e.target.value)}
+              className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+            >
+              <option value="">All Pricing</option>
+              <option value="free">Free</option>
+              <option value="freemium">Freemium</option>
+              <option value="paid">Paid</option>
+            </select>
+          </div>
+        </div>
 
-          {data?.items.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500">No products found</p>
+        {/* Results */}
+        {isLoading ? (
+          <ListSkeleton count={6} />
+        ) : (
+          <>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {data?.items.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
-          )}
-        </>
-      )}
+
+            {data && data.total_pages > 1 && (
+              <div className="mt-8">
+                <Pagination
+                  currentPage={page}
+                  totalPages={data.total_pages}
+                  onPageChange={setPage}
+                />
+              </div>
+            )}
+
+            {data?.items.length === 0 && (
+              <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                <Package className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-500 text-lg">No products found</p>
+                <p className="text-gray-400 text-sm mt-1">Try adjusting your search or filters</p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -102,55 +133,53 @@ function ProductCard({ product }: { product: Product }) {
   const imageUrl = getProductImage(product);
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-start gap-3">
-          <img
-            src={imageUrl}
-            alt={product.name}
-            className="h-12 w-12 rounded-lg object-cover"
-            onError={(e) => {
-              // Fallback to initial letter if image fails to load
-              const target = e.target as HTMLImageElement;
-              target.style.display = 'none';
-              target.nextElementSibling?.classList.remove('hidden');
-            }}
-          />
-          <div className="h-12 w-12 rounded-lg bg-indigo-100 flex items-center justify-center hidden">
-            <span className="text-indigo-600 font-bold text-lg">
-              {product.name.charAt(0)}
-            </span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <CardTitle className="text-base">{product.name}</CardTitle>
-            {product.pricing_type && (
-              <Badge
-                variant={product.pricing_type === 'free' ? 'success' : 'default'}
-                className="mt-1"
-              >
-                {product.pricing_type}
-              </Badge>
-            )}
-          </div>
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg transition-all hover:-translate-y-0.5">
+      <div className="flex items-start gap-3">
+        <img
+          src={imageUrl}
+          alt={product.name}
+          className="h-12 w-12 rounded-lg object-cover"
+          onError={(e) => {
+            // Fallback to initial letter if image fails to load
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            target.nextElementSibling?.classList.remove('hidden');
+          }}
+        />
+        <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center hidden">
+          <span className="text-blue-600 font-bold text-lg">
+            {product.name.charAt(0)}
+          </span>
         </div>
-      </CardHeader>
+        <div className="flex-1 min-w-0">
+          <h3 className="font-semibold text-gray-900">{product.name}</h3>
+          {product.pricing_type && (
+            <Badge
+              variant={product.pricing_type === 'free' ? 'success' : 'default'}
+              className="mt-1"
+            >
+              {product.pricing_type}
+            </Badge>
+          )}
+        </div>
+      </div>
 
-      <CardDescription>
+      <p className="mt-4 text-sm text-gray-600 line-clamp-2">
         {truncate(product.tagline || product.description || '', 120)}
-      </CardDescription>
+      </p>
 
       {product.tags && product.tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
+        <div className="mt-3 flex flex-wrap gap-2">
           {product.tags.slice(0, 3).map((tag) => (
-            <Badge key={tag} size="sm">
+            <span key={tag} className="px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">
               {tag}
-            </Badge>
+            </span>
           ))}
         </div>
       )}
 
-      <CardFooter className="text-sm text-gray-500">
-        <div className="flex items-center gap-4">
+      <div className="mt-4 flex items-center justify-between pt-4 border-t border-gray-100">
+        <div className="flex items-center gap-4 text-sm text-gray-500">
           <span className="flex items-center gap-1">
             <Star className="h-4 w-4" />
             {formatNumber(product.upvotes)}
@@ -165,13 +194,13 @@ function ProductCard({ product }: { product: Product }) {
             href={product.website_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-indigo-600 hover:text-indigo-500"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-1.5 text-sm font-medium text-white hover:opacity-90 transition-all hover:shadow-lg hover:shadow-blue-500/25"
           >
-            <ExternalLink className="h-4 w-4" />
             Visit
+            <ExternalLink className="h-3.5 w-3.5" />
           </a>
         )}
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

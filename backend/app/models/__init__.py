@@ -8,6 +8,8 @@ from .mcp_server import MCPServer, MCPCategory
 from .community import HackerNewsItem, RedditPost, GitHubRepo
 from .event import Event, EventType
 from .investment import Company, FundingRound
+from .user import User, UserProfile, UserLevel
+from .quiz import QuizQuestion, QuizResult, QuestionType, QuestionCategory
 
 __all__ = [
     "Product",
@@ -29,4 +31,11 @@ __all__ = [
     "EventType",
     "Company",
     "FundingRound",
+    "User",
+    "UserProfile",
+    "UserLevel",
+    "QuizQuestion",
+    "QuizResult",
+    "QuestionType",
+    "QuestionCategory",
 ]

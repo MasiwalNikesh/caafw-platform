@@ -9,6 +9,14 @@ from .mcp_server import MCPServerResponse, MCPServerListResponse
 from .community import HackerNewsResponse, RedditPostResponse, GitHubRepoResponse
 from .event import EventResponse, EventListResponse
 from .investment import CompanyResponse, FundingRoundResponse, CompanyListResponse
+from .user import (
+    UserCreate, UserLogin, ProfileUpdate,
+    UserResponse, UserProfileResponse, UserWithProfileResponse, TokenResponse
+)
+from .quiz import (
+    QuizAnswerSubmit, QuizSubmission,
+    QuizQuestionResponse, QuizResultResponse, QuizResultDetailResponse
+)
 
 __all__ = [
     "PaginationParams",
@@ -37,4 +45,18 @@ __all__ = [
     "CompanyResponse",
     "FundingRoundResponse",
     "CompanyListResponse",
+    # User schemas
+    "UserCreate",
+    "UserLogin",
+    "ProfileUpdate",
+    "UserResponse",
+    "UserProfileResponse",
+    "UserWithProfileResponse",
+    "TokenResponse",
+    # Quiz schemas
+    "QuizAnswerSubmit",
+    "QuizSubmission",
+    "QuizQuestionResponse",
+    "QuizResultResponse",
+    "QuizResultDetailResponse",
 ]

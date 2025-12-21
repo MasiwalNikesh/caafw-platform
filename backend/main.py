@@ -18,6 +18,8 @@ from app.api import (
     events,
     investments,
     search,
+    auth,
+    quiz,
 )
 
 
@@ -59,6 +61,8 @@ app.include_router(community.router, prefix="/api/v1/community", tags=["Communit
 app.include_router(events.router, prefix="/api/v1/events", tags=["Events"])
 app.include_router(investments.router, prefix="/api/v1/investments", tags=["Investments"])
 app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
+app.include_router(quiz.router, prefix="/api/v1/quiz", tags=["Quiz"])
 
 
 @app.get("/", tags=["Health"])
