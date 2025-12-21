@@ -49,6 +49,11 @@ class LearningResource(Base, TimestampMixin):
     level: Mapped[Optional[str]] = mapped_column(String(50))  # beginner, intermediate, advanced
     language: Mapped[Optional[str]] = mapped_column(String(50), default="en")
 
+    # Difficulty metadata
+    source_difficulty: Mapped[Optional[str]] = mapped_column(String(50))  # Original difficulty from source
+    prerequisites: Mapped[Optional[List[str]]] = mapped_column(JSON)  # Required prior knowledge
+    is_beginner_friendly: Mapped[bool] = mapped_column(Boolean, default=False)  # Curated beginner content
+
     # Pricing
     is_free: Mapped[bool] = mapped_column(Boolean, default=False)
     price: Mapped[Optional[float]] = mapped_column(Float)

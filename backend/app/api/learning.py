@@ -20,6 +20,7 @@ async def list_resources(
     level: Optional[str] = None,
     is_free: Optional[bool] = None,
     is_featured: Optional[bool] = None,
+    is_beginner_friendly: Optional[bool] = None,
     search: Optional[str] = None,
     sort_by: str = Query(default="created_at", pattern="^(created_at|rating|enrollments)$"),
     sort_order: str = Query(default="desc", pattern="^(asc|desc)$"),
@@ -39,6 +40,8 @@ async def list_resources(
         query = query.where(LearningResource.is_free == is_free)
     if is_featured is not None:
         query = query.where(LearningResource.is_featured == is_featured)
+    if is_beginner_friendly is not None:
+        query = query.where(LearningResource.is_beginner_friendly == is_beginner_friendly)
     if search:
         query = query.where(
             LearningResource.title.ilike(f"%{search}%") |
