@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserPlus, Mail, Lock, User, Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
+import { OAuthButtons } from '@/components/auth/OAuthButtons';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -192,6 +193,21 @@ export default function RegisterPage() {
               <span>After registration, take a quick quiz to personalize your experience!</span>
             </div>
           </form>
+
+          {/* Divider */}
+          <div className="mt-6 relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-4 bg-white text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          {/* OAuth Buttons */}
+          <div className="mt-6">
+            <OAuthButtons mode="register" disabled={isLoading} />
+          </div>
 
           <div className="mt-6 pt-6 border-t border-gray-100">
             <p className="text-center text-sm text-gray-600">
