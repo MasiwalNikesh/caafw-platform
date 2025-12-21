@@ -20,6 +20,7 @@ from app.api import (
     search,
     auth,
     quiz,
+    updates,
 )
 
 
@@ -63,6 +64,7 @@ app.include_router(investments.router, prefix="/api/v1/investments", tags=["Inve
 app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(quiz.router, prefix="/api/v1/quiz", tags=["Quiz"])
+app.include_router(updates.router, prefix="/api/v1/updates", tags=["Updates"])
 
 
 @app.get("/", tags=["Health"])
