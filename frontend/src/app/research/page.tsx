@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { SearchInput } from '@/components/ui/SearchInput';
 import { Pagination } from '@/components/ui/Pagination';
 import { ListSkeleton } from '@/components/ui/Skeleton';
+import { ProtectedLink } from '@/components/ui/ProtectedLink';
 
 export default function ResearchPage() {
   const [page, setPage] = useState(1);
@@ -191,36 +192,29 @@ function PaperCard({ paper }: { paper: ResearchPaper }) {
         </div>
         <div className="flex items-center gap-2">
           {paper.pdf_url && (
-            <a
+            <ProtectedLink
               href={paper.pdf_url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-sm text-teal-600 hover:text-teal-500"
             >
               <FileText className="h-4 w-4" />
               PDF
-            </a>
+            </ProtectedLink>
           )}
           {paper.code_url && (
-            <a
+            <ProtectedLink
               href={paper.code_url}
-              target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-sm text-teal-600 hover:text-teal-500"
             >
               <Code className="h-4 w-4" />
               Code
-            </a>
+            </ProtectedLink>
           )}
-          <a
+          <ProtectedLink
             href={paper.paper_url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-600 to-cyan-600 px-4 py-1.5 text-sm font-medium text-white hover:opacity-90 transition-all hover:shadow-lg hover:shadow-teal-500/25"
           >
             View Paper
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
+          </ProtectedLink>
         </div>
       </div>
     </div>

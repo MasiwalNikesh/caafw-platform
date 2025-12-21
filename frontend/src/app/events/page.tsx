@@ -12,6 +12,7 @@ import { Pagination } from '@/components/ui/Pagination';
 import { ListSkeleton } from '@/components/ui/Skeleton';
 import { LevelFilterToggle } from '@/components/ui/LevelFilterToggle';
 import { useLevelFilter } from '@/hooks/useLevelFilter';
+import { ProtectedLink } from '@/components/ui/ProtectedLink';
 
 export default function EventsPage() {
   const [page, setPage] = useState(1);
@@ -236,15 +237,12 @@ function EventCard({ event, isRecommended }: { event: Event; isRecommended?: boo
               ) : null}
             </span>
           </div>
-          <a
+          <ProtectedLink
             href={event.registration_url || event.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition-all"
           >
             Register
-            <ExternalLink className="h-4 w-4" />
-          </a>
+          </ProtectedLink>
         </div>
       </div>
     </div>

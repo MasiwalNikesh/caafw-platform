@@ -12,6 +12,7 @@ import { Pagination } from '@/components/ui/Pagination';
 import { ListSkeleton } from '@/components/ui/Skeleton';
 import { LevelFilterToggle } from '@/components/ui/LevelFilterToggle';
 import { useLevelFilter } from '@/hooks/useLevelFilter';
+import { ProtectedLink } from '@/components/ui/ProtectedLink';
 
 export default function JobsPage() {
   const [page, setPage] = useState(1);
@@ -238,15 +239,12 @@ function JobCard({ job, isRecommended }: { job: Job; isRecommended?: boolean }) 
               {job.posted_at && formatRelativeTime(job.posted_at)}
             </span>
             {job.apply_url && (
-              <a
+              <ProtectedLink
                 href={job.apply_url}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-5 py-2 text-sm font-medium text-white hover:opacity-90 transition-all hover:shadow-lg hover:shadow-purple-500/25"
               >
                 Apply Now
-                <ExternalLink className="h-4 w-4" />
-              </a>
+              </ProtectedLink>
             )}
           </div>
         </div>

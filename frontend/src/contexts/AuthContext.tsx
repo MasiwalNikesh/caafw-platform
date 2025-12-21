@@ -79,6 +79,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     setUser(userData);
     await fetchCurrentUser(); // Get full profile
+
+    // Check for pending external link
+    const pendingLink = sessionStorage.getItem('pending_external_link');
+    if (pendingLink) {
+      sessionStorage.removeItem('pending_external_link');
+      // Open the link in a new tab after a brief delay to ensure login completes
+      setTimeout(() => {
+        window.open(pendingLink, '_blank', 'noopener,noreferrer');
+      }, 500);
+    }
   };
 
   const register = async (email: string, password: string, name?: string) => {
@@ -90,6 +100,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     setUser(userData);
     await fetchCurrentUser(); // Get full profile
+
+    // Check for pending external link
+    const pendingLink = sessionStorage.getItem('pending_external_link');
+    if (pendingLink) {
+      sessionStorage.removeItem('pending_external_link');
+      // Open the link in a new tab after a brief delay to ensure registration completes
+      setTimeout(() => {
+        window.open(pendingLink, '_blank', 'noopener,noreferrer');
+      }, 500);
+    }
   };
 
   const logout = () => {

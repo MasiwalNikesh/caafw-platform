@@ -12,6 +12,7 @@ import { Pagination } from '@/components/ui/Pagination';
 import { ListSkeleton } from '@/components/ui/Skeleton';
 import { LevelFilterToggle } from '@/components/ui/LevelFilterToggle';
 import { useLevelFilter } from '@/hooks/useLevelFilter';
+import { ProtectedLink } from '@/components/ui/ProtectedLink';
 
 export default function LearningPage() {
   const [page, setPage] = useState(1);
@@ -260,14 +261,12 @@ function ResourceCard({ resource, isRecommended }: { resource: LearningResource;
               </span>
             )}
           </div>
-          <a
+          <ProtectedLink
             href={resource.url}
-            target="_blank"
-            rel="noopener noreferrer"
             className="p-2 rounded-full bg-purple-50 text-purple-600 hover:bg-purple-100 transition-colors"
           >
-            <ExternalLink className="h-4 w-4" />
-          </a>
+            <span className="sr-only">Open resource</span>
+          </ProtectedLink>
         </div>
       </div>
     </div>
