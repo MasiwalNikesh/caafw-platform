@@ -20,13 +20,18 @@ class UserLevel(str, Enum):
 
 
 class User(Base, TimestampMixin):
-    """User model - email-based authentication."""
+    """User model - email-based and OAuth authentication."""
 
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
-    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    password_hash: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)  # Nullable for OAuth users
+
+    # OAuth fields
+    oauth_provider: Mapped[Optional[str]] = mapped_column(String(20))  # google, microsoft, linkedin
+    oauth_id: Mapped[Optional[str]] = mapped_column(String(255))  # OAuth provider's user ID
+    oauth_email_verified: Mapped[bool] = mapped_column(Boolean, default=False)
 
     # Profile info
     name: Mapped[Optional[str]] = mapped_column(String(255))
