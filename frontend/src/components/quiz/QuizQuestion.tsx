@@ -10,7 +10,7 @@ interface QuizQuestionProps {
 
 export function QuizQuestion({ question, currentAnswer, onAnswer }: QuizQuestionProps) {
   const renderMultipleChoice = () => (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {question.options?.map((option) => (
         <button
           key={option.id}
@@ -42,7 +42,7 @@ export function QuizQuestion({ question, currentAnswer, onAnswer }: QuizQuestion
           <span>{scaleLabels['1']}</span>
           <span>{scaleLabels['5']}</span>
         </div>
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-3">
           {[1, 2, 3, 4, 5].map((value) => (
             <button
               key={value}
@@ -82,7 +82,7 @@ export function QuizQuestion({ question, currentAnswer, onAnswer }: QuizQuestion
     };
 
     return (
-      <div className="space-y-3">
+      <div className="space-y-4">
         <p className="text-sm text-gray-400 mb-4">Select all that apply</p>
         {question.options?.map((option) => (
           <button

@@ -51,7 +51,7 @@ export function QuizResult({ result, onRetake }: QuizResultProps) {
 
       <div className="max-w-md mx-auto">
         <div className="relative pt-1">
-          <div className="flex mb-2 items-center justify-between">
+          <div className="flex mb-3 items-center justify-between">
             <div>
               <span className="text-sm font-semibold inline-block text-purple-400">
                 Score: {result.percentage}%
@@ -77,7 +77,7 @@ export function QuizResult({ result, onRetake }: QuizResultProps) {
       {result.category_scores && Object.keys(result.category_scores).length > 0 && (
         <div className="bg-gray-800 rounded-lg p-6 max-w-md mx-auto">
           <h4 className="text-sm font-semibold text-gray-400 mb-4">Category Breakdown</h4>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {Object.entries(result.category_scores).map(([category, score]) => (
               <div key={category} className="flex justify-between items-center">
                 <span className="text-gray-300 capitalize">{category.replace('_', ' ')}</span>
@@ -88,7 +88,7 @@ export function QuizResult({ result, onRetake }: QuizResultProps) {
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+      <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
         <Link
           href="/"
           className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors"
