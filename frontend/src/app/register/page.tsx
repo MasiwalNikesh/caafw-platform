@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserPlus, Mail, Lock, User, Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { register, isAuthenticated } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,11 +17,15 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Get return URL from query params, default to quiz for new registrations
+  const returnUrl = searchParams.get('returnUrl') || '/quiz';
+
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    router.push('/');
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push(returnUrl);
+    }
+  }, [isAuthenticated, router, returnUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,8 +45,8 @@ export default function RegisterPage() {
 
     try {
       await register(email, password, name || undefined);
-      // Redirect to quiz after registration
-      router.push('/quiz');
+      // Redirect to return URL (quiz by default for new users)
+      router.push(returnUrl);
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Registration failed. Please try again.');
     } finally {
