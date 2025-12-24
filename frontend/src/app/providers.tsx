@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { UpdateNotification } from '@/components/ui/UpdateNotification';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -22,10 +23,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        {children}
-        <UpdateNotification />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          {children}
+          <UpdateNotification />
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

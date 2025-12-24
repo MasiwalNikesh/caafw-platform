@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   MessageSquare,
   Mail,
@@ -38,6 +39,7 @@ import {
   Send,
   Link2,
 } from 'lucide-react';
+import { FadeIn, AnimatedStat, StaggeredList, StaggeredItem } from '@/components/ui/animations';
 
 // Stats
 const stats = [
@@ -170,40 +172,46 @@ const values = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white pt-24 sm:pt-28 pb-16">
+      <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 to-white dark:from-gray-800 dark:to-gray-900 pt-24 sm:pt-28 pb-16">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-100 opacity-50 blur-3xl" />
-          <div className="absolute top-20 -left-20 h-60 w-60 rounded-full bg-blue-100 opacity-50 blur-3xl" />
+          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-purple-100 dark:bg-purple-900/30 opacity-50 blur-3xl" />
+          <div className="absolute top-20 -left-20 h-60 w-60 rounded-full bg-blue-100 dark:bg-blue-900/30 opacity-50 blur-3xl" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4">
           {/* Main headline */}
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight">
-              Centre for{' '}
-              <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                Applied AI
-              </span>
-            </h1>
-            <p className="mt-4 text-xl sm:text-2xl font-medium text-gray-700">
-              Applied AI Community for Future-Ready SMBs & Innovators
-            </p>
-            <p className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
-              Building an inclusive community for SMB and AI enthusiasts—learn, experiment, and adopt AI responsibly to save time, grow sustainably, and build customer trust.
-            </p>
+            <FadeIn delay={0.1}>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white tracking-tight">
+                Centre for{' '}
+                <span className="bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                  Applied AI
+                </span>
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <p className="mt-4 text-xl sm:text-2xl font-medium text-gray-700 dark:text-gray-200">
+                Applied AI Community for Future-Ready SMBs & Innovators
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.3}>
+              <p className="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                Building an inclusive community for SMB and AI enthusiasts—learn, experiment, and adopt AI responsibly to save time, grow sustainably, and build customer trust.
+              </p>
+            </FadeIn>
 
             {/* Tags */}
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <span className="px-4 py-2 rounded-full bg-purple-50 text-purple-700 text-sm font-medium border border-purple-100">
+              <span className="px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-medium border border-purple-100 dark:border-purple-800">
                 Education & Reskilling
               </span>
-              <span className="px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium border border-blue-100">
+              <span className="px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium border border-blue-100 dark:border-blue-800">
                 Applied AI Labs
               </span>
-              <span className="px-4 py-2 rounded-full bg-green-50 text-green-700 text-sm font-medium border border-green-100">
+              <span className="px-4 py-2 rounded-full bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium border border-green-100 dark:border-green-800">
                 Responsible AI & Compliance
               </span>
             </div>
@@ -218,14 +226,14 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/quiz"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-gray-700 border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white dark:bg-gray-800 px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all"
               >
-                <Sparkles className="h-5 w-5 text-purple-600" />
+                <Sparkles className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                 AI Readiness Quiz
               </Link>
               <Link
                 href="/events"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-gray-700 border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white dark:bg-gray-800 px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
               >
                 <Calendar className="h-5 w-5" />
                 Events
@@ -234,13 +242,14 @@ export default function HomePage() {
 
             {/* Stats */}
             <div className="mt-12 flex flex-wrap justify-center gap-8 sm:gap-12">
-              {stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                    {stat.value}
-                  </p>
-                  <p className="mt-1 text-sm text-gray-600">{stat.label}</p>
-                </div>
+              {stats.map((stat, index) => (
+                <AnimatedStat
+                  key={stat.label}
+                  value={stat.value}
+                  label={stat.label}
+                  delay={0.5 + index * 0.1}
+                  className="text-center"
+                />
               ))}
             </div>
           </div>
@@ -248,41 +257,41 @@ export default function HomePage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
               Our Mission
             </h2>
-            <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               We bridge the gap between AI innovation and practical business implementation, ensuring Small and Medium Businesses can harness AI's potential while maintaining ethical standards and regulatory compliance.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 mt-12">
             {/* Why We Exist */}
-            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-3xl p-8 border border-purple-100">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Why We Exist</h3>
-              <p className="text-gray-600 leading-relaxed">
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-3xl p-8 border border-purple-100 dark:border-purple-800">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Why We Exist</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                 The rapid advancement of AI technology has created both unprecedented opportunities and challenges for small and medium enterprises. Many organizations lack the resources, expertise, or guidance to navigate this transformation effectively.
               </p>
-              <p className="text-gray-600 leading-relaxed mt-4">
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
                 We provide a trusted platform that democratizes access to AI knowledge, tools, and best practices, ensuring no business is left behind in the AI revolution.
               </p>
             </div>
 
             {/* What We Stand For */}
-            <div className="bg-gradient-to-br from-slate-50 to-gray-50 rounded-3xl p-8 border border-gray-100">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">What We Stand For</h3>
+            <div className="bg-gradient-to-br from-slate-50 to-gray-50 dark:from-gray-800 dark:to-gray-800 rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">What We Stand For</h3>
               <div className="space-y-6">
                 {values.map((value) => (
                   <div key={value.title} className="flex gap-4">
-                    <div className="p-2 rounded-xl bg-white shadow-sm h-fit">
-                      <value.icon className="h-5 w-5 text-purple-600" />
+                    <div className="p-2 rounded-xl bg-white dark:bg-gray-700 shadow-sm h-fit">
+                      <value.icon className="h-5 w-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">{value.title}</h4>
-                      <p className="text-sm text-gray-600 mt-1">{value.description}</p>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">{value.title}</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{value.description}</p>
                     </div>
                   </div>
                 ))}
@@ -293,52 +302,52 @@ export default function HomePage() {
       </section>
 
       {/* Community Pillars Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-gray-900 dark:to-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
               Key Community Pillars
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
               A comprehensive approach to responsible AI adoption
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <StaggeredList className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {pillars.map((pillar) => (
-              <div
+              <StaggeredItem
                 key={pillar.name}
-                className="group bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-all hover:-translate-y-1"
+                className="group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-all"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <div className={`p-3 rounded-xl bg-gradient-to-br ${pillar.color}`}>
                     <pillar.icon className="h-6 w-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900">{pillar.name}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{pillar.name}</h3>
                 </div>
-                <p className="text-gray-600 text-sm mb-4">{pillar.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{pillar.description}</p>
                 <ul className="space-y-2">
                   {pillar.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-gray-600">
+                    <li key={feature} className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
                       <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
                       {feature}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </StaggeredItem>
             ))}
-          </div>
+          </StaggeredList>
         </div>
       </section>
 
       {/* Programs Section */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
               Our Programs
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
               Diverse initiatives designed to support your AI journey at every stage
             </p>
           </div>
@@ -347,25 +356,25 @@ export default function HomePage() {
             {programs.map((program) => (
               <div
                 key={program.title}
-                className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50">
-                      <program.icon className="h-6 w-6 text-purple-600" />
+                    <div className="p-3 rounded-xl bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/30 dark:to-indigo-900/30">
+                      <program.icon className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900">{program.title}</h3>
-                      <p className="text-sm text-purple-600 font-medium">{program.frequency}</p>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white">{program.title}</h3>
+                      <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">{program.frequency}</p>
                     </div>
                   </div>
                   {program.badge && (
-                    <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                    <span className="px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium">
                       {program.badge}
                     </span>
                   )}
                 </div>
-                <p className="text-gray-600 text-sm">{program.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{program.description}</p>
               </div>
             ))}
           </div>
@@ -383,13 +392,13 @@ export default function HomePage() {
       </section>
 
       {/* Get Involved Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
               Get Involved
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-400">
               Join our community and start your AI transformation journey today
             </p>
           </div>
@@ -399,14 +408,14 @@ export default function HomePage() {
               <Link
                 key={option.title}
                 href={option.href}
-                className="group flex flex-col items-center p-8 rounded-2xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-purple-200 hover:shadow-lg transition-all hover:-translate-y-1"
+                className="group flex flex-col items-center p-8 rounded-2xl bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-700 hover:shadow-lg transition-all hover:-translate-y-1"
               >
                 <div className={`p-4 rounded-2xl bg-gradient-to-br ${option.color} mb-4`}>
                   <option.icon className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">{option.title}</h3>
-                <p className="text-gray-600 text-sm text-center mt-2">{option.description}</p>
-                <span className="mt-4 text-purple-600 font-medium group-hover:underline">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{option.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm text-center mt-2">{option.description}</p>
+                <span className="mt-4 text-purple-600 dark:text-purple-400 font-medium group-hover:underline">
                   Learn more →
                 </span>
               </Link>
@@ -416,7 +425,7 @@ export default function HomePage() {
       </section>
 
       {/* Partner With Us Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-gray-900 dark:to-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600 to-indigo-700 p-8 md:p-12 text-center">
             {/* Background decoration */}

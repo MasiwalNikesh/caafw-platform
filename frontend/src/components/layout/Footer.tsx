@@ -1,53 +1,53 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Cpu, Sun, Moon, Sparkles } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+import { Sun, Moon, Monitor } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
+
+// Import logo for dark background (dark logo works on dark bg)
+import logoDark from "@/img/logo-caafw-dark.png";
 
 const quickLinks = [
-  { name: 'About Us', href: '/about' },
-  { name: 'Programs', href: '/programs' },
-  { name: 'Resources', href: '/learning' },
-  { name: 'Community', href: '/community' },
+  { name: "About Us", href: "/about" },
+  { name: "Programs", href: "/programs" },
+  { name: "Resources", href: "/learning" },
+  { name: "Community", href: "/community" },
 ];
 
 const discoverLinks = [
-  { name: 'AI Products', href: '/products' },
-  { name: 'Research', href: '/research' },
-  { name: 'MCP Servers', href: '/mcp' },
-  { name: 'Investments', href: '/investments' },
+  { name: "AI Products", href: "/products" },
+  { name: "Research", href: "/research" },
+  { name: "MCP Servers", href: "/mcp" },
+  { name: "Investments", href: "/investments" },
 ];
 
 const connectLinks = [
-  { name: 'Contact Us', href: '/contact' },
-  { name: 'Careers', href: '/jobs' },
-  { name: 'Events', href: '/events' },
-  { name: 'AI Quiz', href: '/quiz' },
+  { name: "Contact Us", href: "/contact" },
+  { name: "Careers", href: "/jobs" },
+  { name: "Events", href: "/events" },
+  { name: "AI Quiz", href: "/quiz" },
 ];
 
 export function Footer() {
-  const [isDark, setIsDark] = useState(false);
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
-  useEffect(() => {
-    // Check system preference on mount
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = localStorage.getItem('theme');
+  const cycleTheme = () => {
+    if (theme === "light") setTheme("dark");
+    else if (theme === "dark") setTheme("system");
+    else setTheme("light");
+  };
 
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    }
-  }, []);
+  const getThemeIcon = () => {
+    if (theme === "system") return <Monitor className="h-4 w-4" />;
+    if (resolvedTheme === "dark") return <Sun className="h-4 w-4" />;
+    return <Moon className="h-4 w-4" />;
+  };
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    if (isDark) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    }
+  const getThemeLabel = () => {
+    if (theme === "system") return "System";
+    if (resolvedTheme === "dark") return "Light";
+    return "Dark";
   };
 
   return (
@@ -56,14 +56,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500">
-                <Sparkles className="h-6 w-6 text-white" />
-              </div>
-              <span className="font-bold text-xl text-white">CAAFW</span>
+            <Link href="/" className="inline-block">
+              <Image src={logoDark} alt="CAAFW Logo" height={48} />
             </Link>
             <p className="mt-4 text-sm max-w-sm">
-              Centre for Applied AI and Future of Work (CAAFW) — A community initiative dedicated to empowering organizations with responsible AI adoption through education, experimentation, and compliance support.
+              Centre for Applied AI and Future of Work (CAAFW) — A community
+              initiative dedicated to empowering organizations with responsible
+              AI adoption through education, experimentation, and compliance
+              support.
             </p>
           </div>
 
@@ -122,31 +122,29 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm">
-            &copy; {new Date().getFullYear()} Centre for Applied AI and Future of Work (CAAFW). All rights reserved.
+            &copy; {new Date().getFullYear()} Centre for Applied AI and Future
+            of Work (CAAFW). All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             {/* Theme Toggle */}
             <button
-              onClick={toggleTheme}
+              onClick={cycleTheme}
               className="inline-flex items-center gap-2 text-sm text-gray-400 border border-gray-700 rounded-full px-4 py-2 hover:bg-gray-800 hover:text-white transition-all"
               aria-label="Toggle theme"
             >
-              {isDark ? (
-                <>
-                  <Sun className="h-4 w-4" />
-                  <span>Light</span>
-                </>
-              ) : (
-                <>
-                  <Moon className="h-4 w-4" />
-                  <span>Dark</span>
-                </>
-              )}
+              {getThemeIcon()}
+              <span>{getThemeLabel()}</span>
             </button>
-            <Link href="/privacy" className="text-sm hover:text-white transition-colors">
+            <Link
+              href="/privacy"
+              className="text-sm hover:text-white transition-colors"
+            >
               Privacy
             </Link>
-            <Link href="/terms" className="text-sm hover:text-white transition-colors">
+            <Link
+              href="/terms"
+              className="text-sm hover:text-white transition-colors"
+            >
               Terms
             </Link>
           </div>

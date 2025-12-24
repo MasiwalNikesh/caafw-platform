@@ -2,13 +2,16 @@
 from datetime import datetime
 from typing import Optional, List, TYPE_CHECKING
 from enum import Enum
-from sqlalchemy import String, Text, Boolean, Integer, JSON, ForeignKey
+from sqlalchemy import String, Text, Boolean, Integer, JSON, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.database import Base
 from .base import TimestampMixin
+from .admin import UserRole
 
 if TYPE_CHECKING:
     from .quiz import QuizResult
+    from .bookmark import Bookmark, Collection
+    from .content_progress import ContentProgress
 
 
 class UserLevel(str, Enum):
@@ -37,9 +40,22 @@ class User(Base, TimestampMixin):
     name: Mapped[Optional[str]] = mapped_column(String(255))
     avatar_url: Mapped[Optional[str]] = mapped_column(String(500))
 
+    # Role and permissions
+    role: Mapped[UserRole] = mapped_column(
+        SQLEnum(UserRole, values_callable=lambda x: [e.value for e in x]),
+        default=UserRole.USER,
+        nullable=False
+    )
+
     # Status
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    # Ban status
+    is_banned: Mapped[bool] = mapped_column(Boolean, default=False)
+    banned_reason: Mapped[Optional[str]] = mapped_column(Text)
+    banned_at: Mapped[Optional[datetime]] = mapped_column()
+    banned_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 
     # Timestamps
     last_login_at: Mapped[Optional[datetime]] = mapped_column()
@@ -51,6 +67,18 @@ class User(Base, TimestampMixin):
         cascade="all, delete-orphan"
     )
     quiz_results: Mapped[List["QuizResult"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+    bookmarks: Mapped[List["Bookmark"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+    collections: Mapped[List["Collection"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+    content_progress: Mapped[List["ContentProgress"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan"
     )

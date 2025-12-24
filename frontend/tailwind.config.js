@@ -5,6 +5,7 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -20,9 +21,28 @@ module.exports = {
           800: '#1e40af',
           900: '#1e3a8a',
         },
+        surface: {
+          DEFAULT: 'rgb(var(--surface) / <alpha-value>)',
+          secondary: 'rgb(var(--surface-secondary) / <alpha-value>)',
+          elevated: 'rgb(var(--surface-elevated) / <alpha-value>)',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      backgroundColor: {
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        'surface-secondary': 'rgb(var(--surface-secondary) / <alpha-value>)',
+        'surface-elevated': 'rgb(var(--surface-elevated) / <alpha-value>)',
+      },
+      textColor: {
+        primary: 'rgb(var(--text-primary) / <alpha-value>)',
+        secondary: 'rgb(var(--text-secondary) / <alpha-value>)',
+        muted: 'rgb(var(--text-muted) / <alpha-value>)',
+      },
+      borderColor: {
+        DEFAULT: 'rgb(var(--border) / <alpha-value>)',
+        subtle: 'rgb(var(--border-subtle) / <alpha-value>)',
       },
     },
   },

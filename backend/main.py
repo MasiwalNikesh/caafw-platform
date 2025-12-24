@@ -13,6 +13,7 @@ from app.api import (
     news,
     research,
     learning,
+    learning_paths,
     mcp_servers,
     community,
     events,
@@ -21,7 +22,11 @@ from app.api import (
     auth,
     quiz,
     updates,
+    bookmarks,
+    progress,
+    recommendations,
 )
+from app.api.admin import router as admin_router
 
 
 @asynccontextmanager
@@ -65,6 +70,13 @@ app.include_router(search.router, prefix="/api/v1/search", tags=["Search"])
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(quiz.router, prefix="/api/v1/quiz", tags=["Quiz"])
 app.include_router(updates.router, prefix="/api/v1/updates", tags=["Updates"])
+app.include_router(learning_paths.router, prefix="/api/v1/learning-paths", tags=["Learning Paths"])
+app.include_router(bookmarks.router, prefix="/api/v1", tags=["Bookmarks & Collections"])
+app.include_router(progress.router, prefix="/api/v1", tags=["Progress Tracking"])
+app.include_router(recommendations.router, prefix="/api/v1", tags=["Recommendations"])
+
+# Admin routes
+app.include_router(admin_router, prefix="/api/v1/admin", tags=["Admin"])
 
 
 @app.get("/", tags=["Health"])
