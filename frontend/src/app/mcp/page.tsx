@@ -201,7 +201,7 @@ function MCPCard({ server }: { server: MCPServer }) {
           <div className="flex items-center gap-2">
             <h3 className="font-semibold text-gray-900">{server.name}</h3>
             {server.is_official && (
-              <CheckCircle className="h-4 w-4 text-blue-500" title="Official" />
+              <span title="Official"><CheckCircle className="h-4 w-4 text-blue-500" /></span>
             )}
           </div>
           <Badge variant="default" className="mt-1">
