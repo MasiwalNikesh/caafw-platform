@@ -4,15 +4,6 @@ import { createContext, useContext, useState, useEffect, ReactNode, useCallback 
 import { api } from '@/lib/api';
 
 // Types
-interface User {
-  id: number;
-  email: string;
-  name?: string;
-  avatar_url?: string;
-  is_verified: boolean;
-  created_at: string;
-}
-
 interface UserProfile {
   id: number;
   user_id: number;
@@ -22,6 +13,16 @@ interface UserProfile {
   auto_filter_content: boolean;
   interests?: string[];
   learning_goals?: string[];
+}
+
+interface User {
+  id: number;
+  email: string;
+  name?: string;
+  avatar_url?: string;
+  is_verified: boolean;
+  created_at: string;
+  profile?: UserProfile;
 }
 
 interface AuthContextType {
