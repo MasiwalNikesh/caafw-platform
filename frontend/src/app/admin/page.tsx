@@ -30,7 +30,8 @@ export default function AdminDashboard() {
           dashboardAPI.getSourceHealth(),
         ]);
         // Handle both direct stats or wrapped in DashboardResponse
-        const statsData = (statsResponse as DashboardResponse).stats || statsResponse as DashboardStats;
+        const response = statsResponse as DashboardResponse;
+        const statsData: DashboardStats = response.stats ? response.stats : response as unknown as DashboardStats;
         setStats(statsData);
         setPendingReview(pendingData || []);
         setRecentActivity(activityData || []);
