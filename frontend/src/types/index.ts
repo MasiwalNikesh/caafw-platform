@@ -402,6 +402,7 @@ export interface User {
   avatar_url?: string;
   is_verified: boolean;
   created_at: string;
+  profile?: UserProfile;
 }
 
 export interface UserProfile {
