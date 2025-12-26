@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet, Company, FundingRound, LearningPath, LearningPathDetail, RecommendationsResponse } from '@/types';
+import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet, Company, FundingRound, LearningPath, LearningPathDetail, RecommendationsResponse, SearchResponse } from '@/types';
 
 // Dynamically determine API URL based on current hostname
 const getApiBaseUrl = () => {
@@ -203,7 +203,7 @@ export const searchAPI = {
     q: string;
     types?: string;
     limit?: number;
-  }) => fetchAPI('/search', params),
+  }) => fetchAPI<SearchResponse>('/search', params),
 };
 
 // Auth API (used by AuthContext, but exported for direct use if needed)
