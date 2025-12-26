@@ -158,6 +158,7 @@ export interface LearningResource {
   topics?: string[];
   skills?: string[];
   is_featured: boolean;
+  isRecommended?: boolean;
   published_at?: string;
   last_updated?: string;
   created_at: string;
