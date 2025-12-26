@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { PaginatedResponse, HackerNewsItem, GitHubRepo, Tweet } from '@/types';
+import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet } from '@/types';
 
 // Dynamically determine API URL based on current hostname
 const getApiBaseUrl = () => {
@@ -39,11 +39,11 @@ export const productsAPI = {
     pricing_type?: string;
     search?: string;
     tag?: string;
-  }) => fetchAPI('/products', params),
+  }) => fetchAPI<PaginatedResponse<Product>>('/products', params),
 
-  get: (id: number) => fetchAPI(`/products/${id}`),
+  get: (id: number) => fetchAPI<Product>(`/products/${id}`),
 
-  getBySlug: (slug: string) => fetchAPI(`/products/slug/${slug}`),
+  getBySlug: (slug: string) => fetchAPI<Product>(`/products/slug/${slug}`),
 
   categories: () => fetchAPI<{ id: number; name: string; slug: string; description?: string; icon?: string }[]>('/products/categories'),
 
@@ -58,9 +58,9 @@ export const jobsAPI = {
     is_remote?: boolean;
     location?: string;
     search?: string;
-  }) => fetchAPI('/jobs', params),
+  }) => fetchAPI<PaginatedResponse<Job>>('/jobs', params),
 
-  get: (id: number) => fetchAPI(`/jobs/${id}`),
+  get: (id: number) => fetchAPI<Job>(`/jobs/${id}`),
 };
 
 // News API
@@ -70,11 +70,11 @@ export const newsAPI = {
     page_size?: number;
     source?: string;
     search?: string;
-  }) => fetchAPI('/news', params),
+  }) => fetchAPI<PaginatedResponse<NewsArticle>>('/news', params),
 
-  get: (id: number) => fetchAPI(`/news/${id}`),
+  get: (id: number) => fetchAPI<NewsArticle>(`/news/${id}`),
 
-  sources: () => fetchAPI('/news/sources'),
+  sources: () => fetchAPI<string[]>('/news/sources'),
 };
 
 // Research API
@@ -85,11 +85,11 @@ export const researchAPI = {
     category?: string;
     has_code?: boolean;
     search?: string;
-  }) => fetchAPI('/research', params),
+  }) => fetchAPI<PaginatedResponse<ResearchPaper>>('/research', params),
 
-  get: (id: number) => fetchAPI(`/research/${id}`),
+  get: (id: number) => fetchAPI<ResearchPaper>(`/research/${id}`),
 
-  categories: () => fetchAPI('/research/categories'),
+  categories: () => fetchAPI<string[]>('/research/categories'),
 };
 
 // Learning API
@@ -101,11 +101,11 @@ export const learningAPI = {
     level?: string;
     is_free?: boolean;
     search?: string;
-  }) => fetchAPI('/learning', params),
+  }) => fetchAPI<PaginatedResponse<LearningResource>>('/learning', params),
 
-  get: (id: number) => fetchAPI(`/learning/${id}`),
+  get: (id: number) => fetchAPI<LearningResource>(`/learning/${id}`),
 
-  types: () => fetchAPI('/learning/types'),
+  types: () => fetchAPI<string[]>('/learning/types'),
 };
 
 // MCP Servers API
@@ -117,13 +117,13 @@ export const mcpAPI = {
     is_official?: boolean;
     search?: string;
     tag?: string;
-  }) => fetchAPI('/mcp-servers', params),
+  }) => fetchAPI<PaginatedResponse<MCPServer>>('/mcp-servers', params),
 
-  get: (id: number) => fetchAPI(`/mcp-servers/${id}`),
+  get: (id: number) => fetchAPI<MCPServer>(`/mcp-servers/${id}`),
 
-  getBySlug: (slug: string) => fetchAPI(`/mcp-servers/slug/${slug}`),
+  getBySlug: (slug: string) => fetchAPI<MCPServer>(`/mcp-servers/slug/${slug}`),
 
-  categories: () => fetchAPI('/mcp-servers/categories'),
+  categories: () => fetchAPI<string[]>('/mcp-servers/categories'),
 
   tags: (limit?: number) => fetchAPI<{ name: string; count: number }[]>('/mcp-servers/tags', { limit }),
 };
@@ -169,11 +169,11 @@ export const eventsAPI = {
     is_online?: boolean;
     city?: string;
     search?: string;
-  }) => fetchAPI('/events', params),
+  }) => fetchAPI<PaginatedResponse<Event>>('/events', params),
 
-  get: (id: number) => fetchAPI(`/events/${id}`),
+  get: (id: number) => fetchAPI<Event>(`/events/${id}`),
 
-  types: () => fetchAPI('/events/types'),
+  types: () => fetchAPI<string[]>('/events/types'),
 };
 
 // Investments API
