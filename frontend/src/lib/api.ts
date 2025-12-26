@@ -277,7 +277,7 @@ export const bookmarksAPI = {
     page?: number;
     page_size?: number;
     content_type?: BookmarkContentType;
-  }) => fetchAPI<{ items: any[]; total: number; page: number; page_size: number }>('/bookmarks', params),
+  }) => fetchAPI<{ items: any[]; total: number; page: number; page_size: number; total_pages: number }>('/bookmarks', params),
 
   create: (data: { content_type: BookmarkContentType; content_id: number; notes?: string }) =>
     api.post('/bookmarks', data),
