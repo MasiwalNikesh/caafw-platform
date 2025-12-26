@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet, Company, FundingRound, LearningPath, LearningPathDetail } from '@/types';
+import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet, Company, FundingRound, LearningPath, LearningPathDetail, RecommendationsResponse } from '@/types';
 
 // Dynamically determine API URL based on current hostname
 const getApiBaseUrl = () => {
@@ -244,7 +244,7 @@ export const learningPathsAPI = {
 
   get: (id: number) => fetchAPI<LearningPathDetail>(`/learning-paths/${id}`),
 
-  recommendations: () => fetchAPI<LearningPath[]>('/learning-paths/recommendations'),
+  recommendations: () => fetchAPI<RecommendationsResponse>('/learning-paths/recommendations'),
 
   myProgress: () => fetchAPI<any[]>('/learning-paths/my-progress'),
 
