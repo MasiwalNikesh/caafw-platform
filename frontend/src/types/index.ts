@@ -443,3 +443,50 @@ export interface QuizResult {
   category_scores?: Record<string, number>;
   created_at: string;
 }
+
+// Learning Path types
+export interface LearningPath {
+  id: number;
+  title: string;
+  slug: string;
+  description?: string;
+  level: 'novice' | 'beginner' | 'intermediate' | 'expert';
+  duration_hours?: number;
+  topics?: string[];
+  resource_ids: number[];
+  is_featured: boolean;
+  is_active: boolean;
+  resource_count: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface LearningPathDetail extends LearningPath {
+  resources: LearningResource[];
+  user_progress?: UserLearningProgress;
+}
+
+export interface UserLearningProgress {
+  id: number;
+  user_id: number;
+  path_id: number;
+  completed_resource_ids: number[];
+  current_resource_id?: number;
+  progress_percentage: number;
+  started_at?: string;
+  last_activity_at?: string;
+  completed_at?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface PathRecommendation {
+  path: LearningPath;
+  reason: string;
+  match_score: number;
+}
+
+export interface RecommendationsResponse {
+  recommendations: PathRecommendation[];
+  user_level?: string;
+}

@@ -1,10 +1,11 @@
 """Product and AI Tools models."""
 from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import String, Text, Integer, Float, Boolean, ForeignKey, Table, Column, JSON
+from sqlalchemy import String, Text, Integer, Float, Boolean, ForeignKey, Table, Column, JSON, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.database import Base
 from .base import TimestampMixin
+from .admin import ContentStatus
 
 
 # Association table for product-category many-to-many
@@ -69,6 +70,17 @@ class Product(Base, TimestampMixin):
     is_featured: Mapped[bool] = mapped_column(Boolean, default=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
+    # Moderation status
+    moderation_status: Mapped[ContentStatus] = mapped_column(
+        SQLEnum(ContentStatus, values_callable=lambda x: [e.value for e in x]),
+        default=ContentStatus.PENDING,
+        nullable=False,
+        index=True
+    )
+    reviewed_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+    reviewed_at: Mapped[Optional[datetime]] = mapped_column()
+    rejection_reason: Mapped[Optional[str]] = mapped_column(Text)
+
     # Dates
     launched_at: Mapped[Optional[datetime]] = mapped_column()
 
@@ -79,6 +91,9 @@ class Product(Base, TimestampMixin):
     # Tags and extra data
     tags: Mapped[Optional[List[str]]] = mapped_column(JSON)
     extra_data: Mapped[Optional[dict]] = mapped_column(JSON)
+
+    # Region (optional - for regional content filtering)
+    region_id: Mapped[Optional[int]] = mapped_column(ForeignKey("regions.id", ondelete="SET NULL"))
 
     # Relationships
     categories: Mapped[List[ProductCategory]] = relationship(

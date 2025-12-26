@@ -5,6 +5,7 @@ from . import (
     news,
     research,
     learning,
+    learning_paths,
     mcp_servers,
     community,
     events,
@@ -12,6 +13,8 @@ from . import (
     search,
     auth,
     quiz,
+    updates,
+    admin,
 )
 
 __all__ = [
@@ -20,6 +23,7 @@ __all__ = [
     "news",
     "research",
     "learning",
+    "learning_paths",
     "mcp_servers",
     "community",
     "events",
@@ -27,4 +31,6 @@ __all__ = [
     "search",
     "auth",
     "quiz",
+    "updates",
+    "admin",
 ]

@@ -20,6 +20,7 @@ async def list_mcp_servers(
     is_verified: Optional[bool] = None,
     is_featured: Optional[bool] = None,
     search: Optional[str] = None,
+    tag: Optional[str] = None,
     sort_by: str = Query(default="stars", pattern="^(created_at|stars|downloads|name)$"),
     sort_order: str = Query(default="desc", pattern="^(asc|desc)$"),
     db: AsyncSession = Depends(get_db),
@@ -36,6 +37,9 @@ async def list_mcp_servers(
         query = query.where(MCPServer.is_verified == is_verified)
     if is_featured is not None:
         query = query.where(MCPServer.is_featured == is_featured)
+    if tag:
+        # Filter by tag in JSON array
+        query = query.where(MCPServer.tags.contains([tag]))
     if search:
         query = query.where(
             MCPServer.name.ilike(f"%{search}%") |
@@ -80,6 +84,30 @@ async def list_categories():
         {"value": c.value, "label": c.name.replace("_", " ").title()}
         for c in MCPCategory
     ]
+
+
+@router.get("/tags", response_model=List[dict])
+async def list_popular_tags(
+    limit: int = Query(default=20, ge=1, le=50),
+    db: AsyncSession = Depends(get_db),
+):
+    """List popular tags from MCP servers."""
+    # Get all servers with tags
+    query = select(MCPServer.tags).where(MCPServer.is_active == True, MCPServer.tags.isnot(None))
+    result = await db.execute(query)
+    all_tags = result.scalars().all()
+
+    # Count tag occurrences
+    tag_counts: dict = {}
+    for tags in all_tags:
+        if tags:
+            for tag in tags:
+                tag_counts[tag] = tag_counts.get(tag, 0) + 1
+
+    # Sort by count and return top tags
+    sorted_tags = sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:limit]
+
+    return [{"name": tag, "count": count} for tag, count in sorted_tags]
 
 
 @router.get("/{server_id}", response_model=MCPServerResponse)

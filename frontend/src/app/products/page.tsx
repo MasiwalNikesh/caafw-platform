@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ExternalLink, Star, MessageSquare, Package, Sparkles } from 'lucide-react';
+import { ExternalLink, Star, MessageSquare, Package, Sparkles, X } from 'lucide-react';
 import { productsAPI } from '@/lib/api';
 import { Product, PaginatedResponse } from '@/types';
 import { formatNumber, formatRelativeTime, truncate } from '@/lib/utils';
@@ -15,15 +15,31 @@ export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [pricingFilter, setPricingFilter] = useState<string>('');
+  const [categoryFilter, setCategoryFilter] = useState<string>('');
+  const [tagFilter, setTagFilter] = useState<string>('');
+
+  // Fetch categories
+  const { data: categories } = useQuery({
+    queryKey: ['product-categories'],
+    queryFn: () => productsAPI.categories(),
+  });
+
+  // Fetch popular tags
+  const { data: popularTags } = useQuery({
+    queryKey: ['product-tags'],
+    queryFn: () => productsAPI.tags(15),
+  });
 
   const { data, isLoading } = useQuery<PaginatedResponse<Product>>({
-    queryKey: ['products', page, search, pricingFilter],
+    queryKey: ['products', page, search, pricingFilter, categoryFilter, tagFilter],
     queryFn: () =>
       productsAPI.list({
         page,
         page_size: 20,
         search: search || undefined,
         pricing_type: pricingFilter || undefined,
+        category: categoryFilter || undefined,
+        tag: tagFilter || undefined,
       }),
   });
 
@@ -65,23 +81,102 @@ export default function ProductsPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 -mt-8">
         {/* Filters Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <SearchInput
-              value={search}
-              onChange={setSearch}
-              placeholder="Search products..."
-              className="flex-1 max-w-md"
-            />
-            <select
-              value={pricingFilter}
-              onChange={(e) => setPricingFilter(e.target.value)}
-              className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
-            >
-              <option value="">All Pricing</option>
-              <option value="free">Free</option>
-              <option value="freemium">Freemium</option>
-              <option value="paid">Paid</option>
-            </select>
+          <div className="flex flex-col gap-4">
+            {/* Primary filters row */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <SearchInput
+                value={search}
+                onChange={setSearch}
+                placeholder="Search products..."
+                className="flex-1 max-w-md"
+              />
+              {categories && categories.length > 0 && (
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+                >
+                  <option value="">All Categories</option>
+                  {categories.map((cat) => (
+                    <option key={cat.slug} value={cat.slug}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <select
+                value={pricingFilter}
+                onChange={(e) => setPricingFilter(e.target.value)}
+                className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+              >
+                <option value="">All Pricing</option>
+                <option value="free">Free</option>
+                <option value="freemium">Freemium</option>
+                <option value="paid">Paid</option>
+              </select>
+            </div>
+
+            {/* Tag filter chips */}
+            {popularTags && popularTags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm text-gray-500 py-1">Tags:</span>
+                {popularTags.map((tag) => (
+                  <button
+                    key={tag.name}
+                    onClick={() => setTagFilter(tagFilter === tag.name ? '' : tag.name)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                      tagFilter === tag.name
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {tag.name}
+                    {tagFilter === tag.name && <X className="inline h-3 w-3 ml-1" />}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Active filters indicator */}
+            {(categoryFilter || tagFilter || pricingFilter) && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500">Active filters:</span>
+                {categoryFilter && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium">
+                    Category: {categories?.find(c => c.slug === categoryFilter)?.name}
+                    <button onClick={() => setCategoryFilter('')} className="hover:text-blue-900">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                )}
+                {tagFilter && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium">
+                    Tag: {tagFilter}
+                    <button onClick={() => setTagFilter('')} className="hover:text-blue-900">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                )}
+                {pricingFilter && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-medium">
+                    {pricingFilter}
+                    <button onClick={() => setPricingFilter('')} className="hover:text-blue-900">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                )}
+                <button
+                  onClick={() => {
+                    setCategoryFilter('');
+                    setTagFilter('');
+                    setPricingFilter('');
+                  }}
+                  className="text-xs text-gray-500 hover:text-gray-700 underline"
+                >
+                  Clear all
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

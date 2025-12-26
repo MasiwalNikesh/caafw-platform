@@ -56,9 +56,9 @@ const approaches = [
 
 export default function LearnPage() {
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-gray-900">
       {/* Breadcrumb */}
-      <div className="mx-auto max-w-7xl px-6 pt-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 pt-24 sm:pt-28 lg:px-8">
         <nav className="text-sm text-gray-500">
           <Link href="/" className="hover:text-gray-700">
             Home

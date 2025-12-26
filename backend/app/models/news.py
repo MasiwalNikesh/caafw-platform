@@ -2,10 +2,11 @@
 from datetime import datetime
 from typing import Optional, List
 from enum import Enum
-from sqlalchemy import String, Text, Integer, Boolean, JSON, Enum as SQLEnum
+from sqlalchemy import String, Text, Integer, Boolean, JSON, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.database import Base
 from .base import TimestampMixin
+from .admin import ContentStatus
 
 
 class NewsSource(str, Enum):
@@ -62,11 +63,25 @@ class NewsArticle(Base, TimestampMixin):
     is_featured: Mapped[bool] = mapped_column(Boolean, default=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
+    # Moderation status
+    moderation_status: Mapped[ContentStatus] = mapped_column(
+        SQLEnum(ContentStatus, values_callable=lambda x: [e.value for e in x]),
+        default=ContentStatus.PENDING,
+        nullable=False,
+        index=True
+    )
+    reviewed_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+    reviewed_at: Mapped[Optional[datetime]] = mapped_column()
+    rejection_reason: Mapped[Optional[str]] = mapped_column(Text)
+
     # Dates
     published_at: Mapped[Optional[datetime]] = mapped_column()
 
     # Extra data
     extra_data: Mapped[Optional[dict]] = mapped_column(JSON)
+
+    # Region (optional - for regional content filtering)
+    region_id: Mapped[Optional[int]] = mapped_column(ForeignKey("regions.id", ondelete="SET NULL"))
 
     def __repr__(self) -> str:
         return f"<NewsArticle {self.title[:50]}...>"

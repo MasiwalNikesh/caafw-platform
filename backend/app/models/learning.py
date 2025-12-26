@@ -2,7 +2,7 @@
 from datetime import datetime
 from typing import Optional, List
 from enum import Enum
-from sqlalchemy import String, Text, Integer, Float, Boolean, JSON, Enum as SQLEnum
+from sqlalchemy import String, Text, Integer, Float, Boolean, JSON, ForeignKey, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.database import Base
 from .base import TimestampMixin
@@ -78,6 +78,9 @@ class LearningResource(Base, TimestampMixin):
 
     # Extra data
     extra_data: Mapped[Optional[dict]] = mapped_column(JSON)
+
+    # Region (optional - for regional content filtering)
+    region_id: Mapped[Optional[int]] = mapped_column(ForeignKey("regions.id", ondelete="SET NULL"))
 
     def __repr__(self) -> str:
         return f"<LearningResource {self.title[:50]}...>"

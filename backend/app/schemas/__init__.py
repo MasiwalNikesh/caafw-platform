@@ -17,6 +17,36 @@ from .quiz import (
     QuizAnswerSubmit, QuizSubmission,
     QuizQuestionResponse, QuizResultResponse, QuizResultDetailResponse
 )
+from .admin import (
+    # Tags
+    TagCreate, TagUpdate, TagResponse, TagListResponse,
+    # Categories
+    CategoryCreate, CategoryUpdate, CategoryResponse, CategoryTreeResponse,
+    # Moderation
+    ModerationAction, BulkModerationRequest, ContentModerationResponse,
+    # Users
+    UserRoleUpdate, UserBanRequest, AdminUserResponse, AdminUserListResponse,
+    # API Sources
+    APISourceCreate, APISourceUpdate, APISourceResponse, APISourceListResponse,
+    APISourceTestRequest, APISourceTestResponse,
+    # Audit Log
+    AuditLogResponse, AuditLogListResponse,
+    # Dashboard
+    DashboardStats, DashboardResponse, PendingReviewItem, RecentActivityItem, SourceHealthItem,
+    # Content
+    AdminContentItem, AdminContentListResponse,
+)
+from .region import (
+    # Regions
+    RegionCreate, RegionUpdate, RegionResponse, RegionWithChildrenResponse,
+    RegionTreeResponse, RegionListResponse, RegionSimple,
+    # Regional Content
+    RegionalContentCreate, RegionalContentUpdate, RegionalContentResponse,
+    RegionalContentListResponse, RegionalContentBulkCreate, RegionalContentBulkDelete,
+    RegionalContentStatusUpdate,
+    # API Source with Regions
+    APISourceRegionAssignment, APISourceWithRegionsResponse,
+)
 
 __all__ = [
     "PaginationParams",
@@ -59,4 +89,61 @@ __all__ = [
     "QuizQuestionResponse",
     "QuizResultResponse",
     "QuizResultDetailResponse",
+    # Admin schemas - Tags
+    "TagCreate",
+    "TagUpdate",
+    "TagResponse",
+    "TagListResponse",
+    # Admin schemas - Categories
+    "CategoryCreate",
+    "CategoryUpdate",
+    "CategoryResponse",
+    "CategoryTreeResponse",
+    # Admin schemas - Moderation
+    "ModerationAction",
+    "BulkModerationRequest",
+    "ContentModerationResponse",
+    # Admin schemas - Users
+    "UserRoleUpdate",
+    "UserBanRequest",
+    "AdminUserResponse",
+    "AdminUserListResponse",
+    # Admin schemas - API Sources
+    "APISourceCreate",
+    "APISourceUpdate",
+    "APISourceResponse",
+    "APISourceListResponse",
+    "APISourceTestRequest",
+    "APISourceTestResponse",
+    # Admin schemas - Audit Log
+    "AuditLogResponse",
+    "AuditLogListResponse",
+    # Admin schemas - Dashboard
+    "DashboardStats",
+    "DashboardResponse",
+    "PendingReviewItem",
+    "RecentActivityItem",
+    "SourceHealthItem",
+    # Admin schemas - Content
+    "AdminContentItem",
+    "AdminContentListResponse",
+    # Region schemas
+    "RegionCreate",
+    "RegionUpdate",
+    "RegionResponse",
+    "RegionWithChildrenResponse",
+    "RegionTreeResponse",
+    "RegionListResponse",
+    "RegionSimple",
+    # Regional Content schemas
+    "RegionalContentCreate",
+    "RegionalContentUpdate",
+    "RegionalContentResponse",
+    "RegionalContentListResponse",
+    "RegionalContentBulkCreate",
+    "RegionalContentBulkDelete",
+    "RegionalContentStatusUpdate",
+    # API Source with Regions
+    "APISourceRegionAssignment",
+    "APISourceWithRegionsResponse",
 ]

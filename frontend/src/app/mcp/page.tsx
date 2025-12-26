@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Server, Star, Download, GitFork, ExternalLink, CheckCircle, Boxes } from 'lucide-react';
+import { Server, Star, Download, GitFork, ExternalLink, CheckCircle, Boxes, X } from 'lucide-react';
 import { mcpAPI } from '@/lib/api';
 import { MCPServer, PaginatedResponse } from '@/types';
 import { formatNumber, truncate } from '@/lib/utils';
@@ -15,21 +15,28 @@ export default function MCPPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState<string>('');
+  const [tagFilter, setTagFilter] = useState<string>('');
 
   const { data, isLoading } = useQuery<PaginatedResponse<MCPServer>>({
-    queryKey: ['mcp-servers', page, search, category],
+    queryKey: ['mcp-servers', page, search, category, tagFilter],
     queryFn: () =>
       mcpAPI.list({
         page,
         page_size: 20,
         search: search || undefined,
         category: category || undefined,
+        tag: tagFilter || undefined,
       }),
   });
 
   const { data: categories } = useQuery<{ value: string; label: string }[]>({
     queryKey: ['mcp-categories'],
     queryFn: () => mcpAPI.categories(),
+  });
+
+  const { data: popularTags } = useQuery({
+    queryKey: ['mcp-tags'],
+    queryFn: () => mcpAPI.tags(15),
   });
 
   return (
@@ -70,25 +77,81 @@ export default function MCPPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 -mt-8">
         {/* Filters Card */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <SearchInput
-              value={search}
-              onChange={setSearch}
-              placeholder="Search MCP servers..."
-              className="flex-1 max-w-md"
-            />
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-gray-50"
-            >
-              <option value="">All Categories</option>
-              {categories?.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
+          <div className="flex flex-col gap-4">
+            {/* Primary filters row */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <SearchInput
+                value={search}
+                onChange={setSearch}
+                placeholder="Search MCP servers..."
+                className="flex-1 max-w-md"
+              />
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent bg-gray-50"
+              >
+                <option value="">All Categories</option>
+                {categories?.map((cat) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Tag filter chips */}
+            {popularTags && popularTags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm text-gray-500 py-1">Tags:</span>
+                {popularTags.map((tag) => (
+                  <button
+                    key={tag.name}
+                    onClick={() => setTagFilter(tagFilter === tag.name ? '' : tag.name)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                      tagFilter === tag.name
+                        ? 'bg-violet-600 text-white'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    {tag.name}
+                    {tagFilter === tag.name && <X className="inline h-3 w-3 ml-1" />}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Active filters indicator */}
+            {(category || tagFilter) && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500">Active filters:</span>
+                {category && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-medium">
+                    Category: {categories?.find(c => c.value === category)?.label}
+                    <button onClick={() => setCategory('')} className="hover:text-violet-900">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                )}
+                {tagFilter && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-medium">
+                    Tag: {tagFilter}
+                    <button onClick={() => setTagFilter('')} className="hover:text-violet-900">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                )}
+                <button
+                  onClick={() => {
+                    setCategory('');
+                    setTagFilter('');
+                  }}
+                  className="text-xs text-gray-500 hover:text-gray-700 underline"
+                >
+                  Clear all
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

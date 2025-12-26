@@ -69,8 +69,8 @@ export function OAuthButtons({ mode = 'login', disabled = false }: OAuthButtonsP
 
   const handleOAuthLogin = (providerId: string) => {
     setLoadingProvider(providerId);
-    // Redirect to backend OAuth endpoint
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    // Redirect to backend OAuth endpoint - use same hostname but port 8000
+    const backendUrl = `http://${window.location.hostname}:8000`;
     window.location.href = `${backendUrl}/api/v1/auth/oauth/${providerId}/login`;
   };
 

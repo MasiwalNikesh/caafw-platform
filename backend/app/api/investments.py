@@ -24,7 +24,7 @@ async def list_companies(
     total_funding_min: Optional[int] = None,
     is_featured: Optional[bool] = None,
     search: Optional[str] = None,
-    sort_by: str = Query(default="total_funding", pattern="^(total_funding|founded_year|created_at)$"),
+    sort_by: str = Query(default="total_funding", pattern="^(total_funding|founded_year|created_at|last_funding_date)$"),
     sort_order: str = Query(default="desc", pattern="^(asc|desc)$"),
     db: AsyncSession = Depends(get_db),
 ):

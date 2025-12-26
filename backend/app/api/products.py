@@ -28,6 +28,7 @@ async def list_products(
     pricing_type: Optional[str] = None,
     is_featured: Optional[bool] = None,
     search: Optional[str] = None,
+    tag: Optional[str] = None,
     sort_by: str = Query(default="created_at", pattern="^(created_at|upvotes|name)$"),
     sort_order: str = Query(default="desc", pattern="^(asc|desc)$"),
     db: AsyncSession = Depends(get_db),
@@ -44,6 +45,9 @@ async def list_products(
         query = query.where(Product.pricing_type == pricing_type)
     if is_featured is not None:
         query = query.where(Product.is_featured == is_featured)
+    if tag:
+        # Filter by tag in JSON array
+        query = query.where(Product.tags.contains([tag]))
     if search:
         query = query.where(
             Product.name.ilike(f"%{search}%") |
@@ -81,6 +85,51 @@ async def list_products(
         has_next=page < total_pages,
         has_prev=page > 1,
     )
+
+
+@router.get("/categories", tags=["Categories"])
+async def list_categories(
+    db: AsyncSession = Depends(get_db),
+):
+    """List all product categories."""
+    query = select(ProductCategory).order_by(ProductCategory.name)
+    result = await db.execute(query)
+    categories = result.scalars().all()
+
+    return [
+        {
+            "id": cat.id,
+            "name": cat.name,
+            "slug": cat.slug,
+            "description": cat.description,
+            "icon": cat.icon,
+        }
+        for cat in categories
+    ]
+
+
+@router.get("/tags", tags=["Tags"])
+async def list_popular_tags(
+    limit: int = Query(default=20, ge=1, le=50),
+    db: AsyncSession = Depends(get_db),
+):
+    """List popular tags from products."""
+    # Get all products with tags
+    query = select(Product.tags).where(Product.is_active == True, Product.tags.isnot(None))
+    result = await db.execute(query)
+    all_tags = result.scalars().all()
+
+    # Count tag occurrences
+    tag_counts: dict = {}
+    for tags in all_tags:
+        if tags:
+            for tag in tags:
+                tag_counts[tag] = tag_counts.get(tag, 0) + 1
+
+    # Sort by count and return top tags
+    sorted_tags = sorted(tag_counts.items(), key=lambda x: x[1], reverse=True)[:limit]
+
+    return [{"name": tag, "count": count} for tag, count in sorted_tags]
 
 
 @router.get("/{product_id}", response_model=ProductResponse)
@@ -192,8 +241,10 @@ async def collect_products_from_producthunt():
     import re
     from datetime import datetime
 
-    # Hardcoded token for testing
-    token = "rjjBQ1BueuD_ynPXfi9DCy4ll0wgxncyq1A03pA5Esg"
+    # Use configured token from settings
+    token = settings.PRODUCT_HUNT_TOKEN
+    if not token:
+        raise HTTPException(status_code=500, detail="PRODUCT_HUNT_TOKEN not configured")
 
     graphql_query = """
     query GetProducts($first: Int!) {
@@ -266,10 +317,35 @@ async def collect_products_from_producthunt():
             except ValueError:
                 return None
 
+        # Topic to category mapping
+        topic_to_category = {
+            "artificial-intelligence": "ai-ml",
+            "machine-learning": "ai-ml",
+            "generative-ai": "ai-ml",
+            "ai": "ai-ml",
+            "developer-tools": "developer-tools",
+            "developer": "developer-tools",
+            "no-code": "developer-tools",
+            "productivity": "productivity",
+            "automation": "productivity",
+            "design": "design",
+            "design-tools": "design",
+            "marketing": "marketing",
+            "analytics": "analytics",
+            "writing": "writing",
+        }
+
         transformed_data = []
         for item in raw_data:
             topics = item.get("topics", {}).get("edges", [])
             tags = [t["node"]["name"] for t in topics]
+            topic_slugs = [t["node"]["slug"] for t in topics]
+
+            # Map topics to category slugs
+            category_slugs = set()
+            for topic_slug in topic_slugs:
+                if topic_slug in topic_to_category:
+                    category_slugs.add(topic_to_category[topic_slug])
 
             product = {
                 "external_id": str(item.get("id")),
@@ -285,6 +361,7 @@ async def collect_products_from_producthunt():
                 "tags": tags,
                 "launched_at": parse_date(item.get("createdAt")),
                 "is_featured": item.get("featuredAt") is not None,
+                "_category_slugs": list(category_slugs),
             }
             transformed_data.append(product)
 
@@ -295,10 +372,23 @@ async def collect_products_from_producthunt():
         async with AsyncSessionLocal() as session:
             inserted = 0
             updated = 0
+            categories_assigned = 0
+
+            # Pre-fetch all categories
+            cat_query = select(ProductCategory)
+            cat_result = await session.execute(cat_query)
+            all_categories = {cat.slug: cat for cat in cat_result.scalars().all()}
 
             for item in transformed_data:
-                # Check if exists
-                db_query = select(Product).where(Product.external_id == item.get("external_id"))
+                # Extract category slugs before passing to Product model
+                category_slugs = item.pop("_category_slugs", [])
+
+                # Check if exists (load categories for relationship check)
+                db_query = (
+                    select(Product)
+                    .where(Product.external_id == item.get("external_id"))
+                    .options(selectinload(Product.categories))
+                )
                 result = await session.execute(db_query)
                 existing = result.scalar_one_or_none()
 
@@ -307,12 +397,24 @@ async def collect_products_from_producthunt():
                     for key, value in item.items():
                         if hasattr(existing, key) and key != "id":
                             setattr(existing, key, value)
+                    product_obj = existing
                     updated += 1
                 else:
                     # Insert new product
                     new_product = Product(**item)
                     session.add(new_product)
+                    await session.flush()  # Get the ID
+                    product_obj = new_product
                     inserted += 1
+
+                # Assign categories
+                if category_slugs:
+                    for cat_slug in category_slugs:
+                        if cat_slug in all_categories:
+                            cat = all_categories[cat_slug]
+                            if cat not in product_obj.categories:
+                                product_obj.categories.append(cat)
+                                categories_assigned += 1
 
             await session.commit()
 
@@ -320,7 +422,8 @@ async def collect_products_from_producthunt():
             "message": "Collection complete",
             "collected": len(transformed_data),
             "inserted": inserted,
-            "updated": updated
+            "updated": updated,
+            "categories_assigned": categories_assigned,
         }
 
     except Exception as e:

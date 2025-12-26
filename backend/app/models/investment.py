@@ -68,6 +68,9 @@ class Company(Base, TimestampMixin):
     # Extra data
     extra_data: Mapped[Optional[dict]] = mapped_column(JSON)
 
+    # Region (optional - for regional content filtering)
+    region_id: Mapped[Optional[int]] = mapped_column(ForeignKey("regions.id", ondelete="SET NULL"))
+
     # Relationships
     funding_rounds: Mapped[List["FundingRound"]] = relationship(back_populates="company")
 

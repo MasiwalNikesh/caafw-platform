@@ -450,11 +450,11 @@ export function Navbar() {
           onClick={() => setMobileMenuOpen(false)}
         />
         <div
-          className={`fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 ${
+          className={`fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl transition-transform duration-300 isolate ${
             mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800">
+          <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
             <Link
               href="/"
               className="flex items-center"
@@ -484,7 +484,7 @@ export function Navbar() {
             </button>
           </div>
 
-          <div className="overflow-y-auto h-[calc(100vh-80px)] p-4">
+          <div className="overflow-y-auto h-[calc(100vh-80px)] p-4 bg-white dark:bg-gray-900">
             {/* AI Quiz CTA */}
             <Link
               href="/quiz"

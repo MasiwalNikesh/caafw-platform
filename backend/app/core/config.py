@@ -22,8 +22,13 @@ class Settings(BaseSettings):
     # Elasticsearch
     ELASTICSEARCH_URL: str = "http://localhost:9200"
 
-    # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    # CORS - Production should use CORS_ORIGINS env var
+    CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://caafw.org",
+        "https://www.caafw.org",
+    ]
 
     # API Keys - Products
     PRODUCT_HUNT_CLIENT_ID: str = ""
@@ -65,6 +70,16 @@ class Settings(BaseSettings):
 
     # API Keys - Developer
     GITHUB_TOKEN: str = ""
+
+    # API Keys - Research (Optional - enhances paper data)
+    SEMANTIC_SCHOLAR_API_KEY: str = ""  # Optional, increases rate limits
+
+    # API Keys - Events (Optional)
+    EVENTBRITE_API_KEY: str = ""
+
+    # API Keys - Social (Optional)
+    REDDIT_CLIENT_ID: str = ""
+    REDDIT_CLIENT_SECRET: str = ""
 
     # Pagination
     DEFAULT_PAGE_SIZE: int = 20

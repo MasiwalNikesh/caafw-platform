@@ -1,10 +1,11 @@
 """Research paper models."""
 from datetime import datetime
 from typing import Optional, List
-from sqlalchemy import String, Text, Integer, Boolean, JSON, ForeignKey, Table, Column
+from sqlalchemy import String, Text, Integer, Boolean, JSON, ForeignKey, Table, Column, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.database import Base
 from .base import TimestampMixin
+from .admin import ContentStatus
 
 
 # Association table for paper-author many-to-many
@@ -74,12 +75,26 @@ class ResearchPaper(Base, TimestampMixin):
     has_code: Mapped[bool] = mapped_column(Boolean, default=False)
     is_featured: Mapped[bool] = mapped_column(Boolean, default=False)
 
+    # Moderation status (default APPROVED for arXiv - trusted source)
+    moderation_status: Mapped[ContentStatus] = mapped_column(
+        SQLEnum(ContentStatus, values_callable=lambda x: [e.value for e in x]),
+        default=ContentStatus.APPROVED,
+        nullable=False,
+        index=True
+    )
+    reviewed_by_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+    reviewed_at: Mapped[Optional[datetime]] = mapped_column()
+    rejection_reason: Mapped[Optional[str]] = mapped_column(Text)
+
     # Dates
     published_at: Mapped[Optional[datetime]] = mapped_column()
     updated_at_source: Mapped[Optional[datetime]] = mapped_column()
 
     # Extra data
     extra_data: Mapped[Optional[dict]] = mapped_column(JSON)
+
+    # Region (optional - for regional content filtering)
+    region_id: Mapped[Optional[int]] = mapped_column(ForeignKey("regions.id", ondelete="SET NULL"))
 
     # Relationships
     authors: Mapped[List[PaperAuthor]] = relationship(

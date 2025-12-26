@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Building2, MapPin, Users, DollarSign, TrendingUp, ExternalLink, Coins } from 'lucide-react';
+import { Building2, MapPin, Users, DollarSign, TrendingUp, ExternalLink, Coins, ArrowUpDown } from 'lucide-react';
 import { investmentsAPI } from '@/lib/api';
 import { Company, PaginatedResponse } from '@/types';
 import { formatCurrency, truncate } from '@/lib/utils';
@@ -11,19 +11,24 @@ import { SearchInput } from '@/components/ui/SearchInput';
 import { Pagination } from '@/components/ui/Pagination';
 import { ListSkeleton } from '@/components/ui/Skeleton';
 
+type SortOption = 'total_funding' | 'last_funding_date';
+
 export default function InvestmentsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [fundingStatus, setFundingStatus] = useState<string>('');
+  const [sortBy, setSortBy] = useState<SortOption>('total_funding');
 
   const { data, isLoading } = useQuery<PaginatedResponse<Company>>({
-    queryKey: ['companies', page, search, fundingStatus],
+    queryKey: ['companies', page, search, fundingStatus, sortBy],
     queryFn: () =>
       investmentsAPI.companies({
         page,
         page_size: 20,
         search: search || undefined,
         funding_status: fundingStatus || undefined,
+        sort_by: sortBy,
+        sort_order: 'desc',
       }),
   });
 
@@ -83,6 +88,31 @@ export default function InvestmentsPage() {
               <option value="series_b">Series B</option>
               <option value="series_c">Series C+</option>
             </select>
+            {/* Sort Toggle */}
+            <div className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 p-1">
+              <button
+                onClick={() => setSortBy('total_funding')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  sortBy === 'total_funding'
+                    ? 'bg-white text-emerald-700 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <DollarSign className="h-4 w-4" />
+                Largest
+              </button>
+              <button
+                onClick={() => setSortBy('last_funding_date')}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  sortBy === 'last_funding_date'
+                    ? 'bg-white text-emerald-700 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                <ArrowUpDown className="h-4 w-4" />
+                Recent
+              </button>
+            </div>
           </div>
         </div>
 

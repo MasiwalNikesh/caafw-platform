@@ -6,6 +6,66 @@ from .base import BaseCollector
 from app.core.config import settings
 
 
+# Topic to category mapping
+TOPIC_TO_CATEGORY = {
+    # AI/ML
+    "artificial-intelligence": "ai-ml",
+    "machine-learning": "ai-ml",
+    "deep-learning": "ai-ml",
+    "natural-language-processing": "ai-ml",
+    "generative-ai": "ai-ml",
+    "chatgpt": "ai-ml",
+    "llm": "ai-ml",
+    "ai-assistants": "ai-ml",
+    "ai": "ai-ml",
+    # Developer Tools
+    "developer-tools": "developer-tools",
+    "developer": "developer-tools",
+    "no-code": "developer-tools",
+    "low-code": "developer-tools",
+    "apis": "developer-tools",
+    "github": "developer-tools",
+    "programming": "developer-tools",
+    # Productivity
+    "productivity": "productivity",
+    "task-management": "productivity",
+    "workflow": "productivity",
+    "automation": "productivity",
+    "calendar": "productivity",
+    # Design
+    "design": "design",
+    "design-tools": "design",
+    "figma": "design",
+    "ui-ux": "design",
+    "prototyping": "design",
+    # Marketing
+    "marketing": "marketing",
+    "seo": "marketing",
+    "social-media": "marketing",
+    "content-marketing": "marketing",
+    "email-marketing": "marketing",
+    # Analytics
+    "analytics": "analytics",
+    "data": "analytics",
+    "business-intelligence": "analytics",
+    "metrics": "analytics",
+    # Communication
+    "communication": "communication",
+    "messaging": "communication",
+    "video-conferencing": "communication",
+    "collaboration": "communication",
+    # Education
+    "education": "education",
+    "learning": "education",
+    "online-learning": "education",
+    # Writing
+    "writing": "writing",
+    "writing-tools": "writing",
+    "copywriting": "writing",
+    "content-creation": "writing",
+}
+
+
 class ProductHuntCollector(BaseCollector):
     """Collector for Product Hunt API."""
 
@@ -94,6 +154,13 @@ class ProductHuntCollector(BaseCollector):
             # Extract topics as tags
             topics = item.get("topics", {}).get("edges", [])
             tags = [t["node"]["name"] for t in topics]
+            topic_slugs = [t["node"]["slug"] for t in topics]
+
+            # Map topics to category slugs
+            category_slugs = set()
+            for topic_slug in topic_slugs:
+                if topic_slug in TOPIC_TO_CATEGORY:
+                    category_slugs.add(TOPIC_TO_CATEGORY[topic_slug])
 
             product = {
                 "external_id": item.get("id"),
@@ -113,6 +180,8 @@ class ProductHuntCollector(BaseCollector):
                     "makers": item.get("makers", []),
                     "product_hunt_url": item.get("url"),
                 },
+                # Category slugs for later assignment
+                "_category_slugs": list(category_slugs),
             }
             products.append(product)
 
