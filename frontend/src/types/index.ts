@@ -69,6 +69,7 @@ export interface Job {
   apply_url?: string;
   is_featured: boolean;
   is_active: boolean;
+  isRecommended?: boolean;
   posted_at?: string;
   expires_at?: string;
   created_at: string;
