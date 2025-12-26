@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { dashboardAPI } from '@/lib/adminApi';
 import type {
   DashboardStats,
+  DashboardResponse,
   PendingReviewItem,
   RecentActivity,
   SourceHealth,
@@ -22,12 +23,14 @@ export default function AdminDashboard() {
     async function fetchData() {
       try {
         setLoading(true);
-        const [statsData, pendingData, activityData, healthData] = await Promise.all([
+        const [statsResponse, pendingData, activityData, healthData] = await Promise.all([
           dashboardAPI.getStats(),
           dashboardAPI.getPendingReview(10),
           dashboardAPI.getRecentActivity(10),
           dashboardAPI.getSourceHealth(),
         ]);
+        // Handle both direct stats or wrapped in DashboardResponse
+        const statsData = (statsResponse as DashboardResponse).stats || statsResponse as DashboardStats;
         setStats(statsData);
         setPendingReview(pendingData || []);
         setRecentActivity(activityData || []);
