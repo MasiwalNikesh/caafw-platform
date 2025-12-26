@@ -8,6 +8,7 @@ interface ProtectedLinkProps {
   href: string;
   children: ReactNode;
   className?: string;
+  title?: string;
   requireAuth?: boolean;
   showLockIcon?: boolean;
   onAuthRequired?: () => void;
@@ -17,6 +18,7 @@ export function ProtectedLink({
   href,
   children,
   className = '',
+  title,
   requireAuth = true,
   showLockIcon = false,
   onAuthRequired,
@@ -34,6 +36,7 @@ export function ProtectedLink({
       rel="noopener noreferrer"
       onClick={handleClick}
       className={className}
+      title={title}
     >
       {children}
       {isProtected && showLockIcon ? (
