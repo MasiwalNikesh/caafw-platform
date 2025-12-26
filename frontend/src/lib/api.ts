@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { PaginatedResponse, HackerNewsItem, GitHubRepo, Tweet } from '@/types';
 
 // Dynamically determine API URL based on current hostname
 const getApiBaseUrl = () => {
@@ -133,30 +134,30 @@ export const communityAPI = {
     page?: number;
     page_size?: number;
     search?: string;
-  }) => fetchAPI('/community/hackernews', params),
+  }) => fetchAPI<PaginatedResponse<HackerNewsItem>>('/community/hackernews', params),
 
   reddit: (params?: {
     page?: number;
     page_size?: number;
     subreddit?: string;
     search?: string;
-  }) => fetchAPI('/community/reddit', params),
+  }) => fetchAPI<PaginatedResponse<any>>('/community/reddit', params),
 
   github: (params?: {
     page?: number;
     page_size?: number;
     language?: string;
     search?: string;
-  }) => fetchAPI('/community/github', params),
+  }) => fetchAPI<PaginatedResponse<GitHubRepo>>('/community/github', params),
 
   tweets: (params?: {
     page?: number;
     page_size?: number;
     topic?: string;
     search?: string;
-  }) => fetchAPI('/community/tweets', params),
+  }) => fetchAPI<PaginatedResponse<Tweet>>('/community/tweets', params),
 
-  tweetTopics: () => fetchAPI('/community/tweets/topics/list'),
+  tweetTopics: () => fetchAPI<string[]>('/community/tweets/topics/list'),
 };
 
 // Events API
