@@ -6,11 +6,11 @@ This document describes all integrated data sources, their configuration, and ho
 
 ## Quick Overview
 
-| Category | Active Sources | Total |
-|----------|---------------|-------|
-| **API Sources** | 10 | 11 |
-| **RSS Feeds** | 18 | 18 |
-| **Total** | **28** | **29** |
+| Category        | Active Sources | Total  |
+| --------------- | -------------- | ------ |
+| **API Sources** | 10             | 11     |
+| **RSS Feeds**   | 18             | 18     |
+| **Total**       | **28**         | **29** |
 
 ---
 
@@ -18,46 +18,46 @@ This document describes all integrated data sources, their configuration, and ho
 
 ### API Sources (10 Active)
 
-| Source | Slug | API Key Required | Fetch Interval | Data Type |
-|--------|------|------------------|----------------|-----------|
-| **arXiv AI** | `arxiv-ai` | No | 60 min | Research papers |
-| **Hacker News** | `hackernews` | No | 30 min | Tech discussions |
-| **GitHub Trending** | `github-trending` | No (recommended) | 60 min | AI repositories |
-| **Papers With Code** | `papers-with-code` | No | 60 min | ML papers + code |
-| **Semantic Scholar** | `semantic-scholar` | No (optional) | 120 min | Paper metadata |
-| **MCP Registry** | `mcp-registry` | No | 1440 min | MCP servers |
-| **The Muse Jobs** | `themuse-jobs` | No (optional) | 120 min | Job listings |
-| **Adzuna Jobs** | `adzuna-jobs` | Yes | 120 min | Job listings |
-| **YouTube AI** | `youtube-ai` | Yes | 180 min | Learning videos |
-| **Product Hunt AI** | `producthunt-ai` | Yes | 60 min | AI products |
+| Source               | Slug               | API Key Required | Fetch Interval | Data Type        |
+| -------------------- | ------------------ | ---------------- | -------------- | ---------------- |
+| **arXiv AI**         | `arxiv-ai`         | No               | 60 min         | Research papers  |
+| **Hacker News**      | `hackernews`       | No               | 30 min         | Tech discussions |
+| **GitHub Trending**  | `github-trending`  | No (recommended) | 60 min         | AI repositories  |
+| **Papers With Code** | `papers-with-code` | No               | 60 min         | ML papers + code |
+| **Semantic Scholar** | `semantic-scholar` | No (optional)    | 120 min        | Paper metadata   |
+| **MCP Registry**     | `mcp-registry`     | No               | 1440 min       | MCP servers      |
+| **The Muse Jobs**    | `themuse-jobs`     | No (optional)    | 120 min        | Job listings     |
+| **Adzuna Jobs**      | `adzuna-jobs`      | Yes              | 120 min        | Job listings     |
+| **YouTube AI**       | `youtube-ai`       | Yes              | 180 min        | Learning videos  |
+| **Product Hunt AI**  | `producthunt-ai`   | Yes              | 60 min         | AI products      |
 
 ### RSS Feeds (18 Active)
 
-| Source | Slug | Fetch Interval | Content Type |
-|--------|------|----------------|--------------|
-| **Anthropic News** | `anthropic-news` | 120 min | Company blog |
-| **OpenAI Blog** | `openai-blog` | 120 min | Company blog |
-| **DeepMind Blog** | `deepmind-blog` | 120 min | Company blog |
-| **Google AI Blog** | `google-ai-blog` | 120 min | Company blog |
-| **Hugging Face Blog** | `huggingface-blog` | 120 min | Company blog |
-| **TechCrunch AI** | `techcrunch-ai` | 60 min | Tech news |
-| **VentureBeat AI** | `venturebeat-ai` | 60 min | Tech news |
-| **MIT Technology Review** | `mit-tech-review-ai` | 120 min | Tech news |
-| **Towards Data Science** | `towards-data-science` | 60 min | Tutorials |
-| **KDnuggets** | `kdnuggets` | 120 min | ML news |
-| **Machine Learning Mastery** | `ml-mastery` | 120 min | Tutorials |
-| **The Batch** | `the-batch` | 1440 min | Newsletter |
-| **Import AI** | `import-ai` | 1440 min | Newsletter |
-| **The Gradient** | `the-gradient` | 1440 min | Research |
-| **AI Alignment Forum** | `ai-alignment` | 120 min | AI safety |
-| **LessWrong AI** | `lesswrong-ai` | 120 min | AI discussions |
-| **RemoteOK AI Jobs** | `remoteok-ai` | 60 min | Remote jobs |
-| **Y Combinator** | `ycombinator-ai` | 30 min | Startup news |
+| Source                       | Slug                   | Fetch Interval | Content Type   |
+| ---------------------------- | ---------------------- | -------------- | -------------- |
+| **Anthropic News**           | `anthropic-news`       | 120 min        | Company blog   |
+| **OpenAI Blog**              | `openai-blog`          | 120 min        | Company blog   |
+| **DeepMind Blog**            | `deepmind-blog`        | 120 min        | Company blog   |
+| **Google AI Blog**           | `google-ai-blog`       | 120 min        | Company blog   |
+| **Hugging Face Blog**        | `huggingface-blog`     | 120 min        | Company blog   |
+| **TechCrunch AI**            | `techcrunch-ai`        | 60 min         | Tech news      |
+| **VentureBeat AI**           | `venturebeat-ai`       | 60 min         | Tech news      |
+| **MIT Technology Review**    | `mit-tech-review-ai`   | 120 min        | Tech news      |
+| **Towards Data Science**     | `towards-data-science` | 60 min         | Tutorials      |
+| **KDnuggets**                | `kdnuggets`            | 120 min        | ML news        |
+| **Machine Learning Mastery** | `ml-mastery`           | 120 min        | Tutorials      |
+| **The Batch**                | `the-batch`            | 1440 min       | Newsletter     |
+| **Import AI**                | `import-ai`            | 1440 min       | Newsletter     |
+| **The Gradient**             | `the-gradient`         | 1440 min       | Research       |
+| **AI Alignment Forum**       | `ai-alignment`         | 120 min        | AI safety      |
+| **LessWrong AI**             | `lesswrong-ai`         | 120 min        | AI discussions |
+| **RemoteOK AI Jobs**         | `remoteok-ai`          | 60 min         | Remote jobs    |
+| **Y Combinator**             | `ycombinator-ai`       | 30 min         | Startup news   |
 
 ### Inactive Sources (Need API Keys)
 
-| Source | Slug | Keys Needed |
-|--------|------|-------------|
+| Source        | Slug        | Keys Needed                                |
+| ------------- | ----------- | ------------------------------------------ |
 | **Reddit ML** | `reddit-ml` | `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET` |
 
 ---
@@ -115,27 +115,29 @@ REDDIT_CLIENT_SECRET=your_client_secret
 ## Collectors Architecture
 
 ### Location
+
 All collectors are in `/backend/app/collectors/`
 
 ### Available Collectors
 
-| Collector | File | Data Model |
-|-----------|------|------------|
-| `ProductHuntCollector` | `product_hunt.py` | Products |
-| `RSSNewsCollector` | `rss_news.py` | News Articles |
-| `HackerNewsCollector` | `hackernews.py` | HN Items |
-| `ArxivCollector` | `arxiv.py` | Research Papers |
-| `GitHubCollector` | `github.py` | GitHub Repos |
-| `AdzunaCollector` | `jobs.py` | Jobs |
-| `TheMuseCollector` | `jobs.py` | Jobs |
-| `YouTubeCollector` | `youtube.py` | Learning Resources |
-| `MCPCollector` | `mcp.py` | MCP Servers |
-| `TwitterCollector` | `twitter.py` | Tweets |
+| Collector                | File                | Data Model          |
+| ------------------------ | ------------------- | ------------------- |
+| `ProductHuntCollector`   | `product_hunt.py`   | Products            |
+| `RSSNewsCollector`       | `rss_news.py`       | News Articles       |
+| `HackerNewsCollector`    | `hackernews.py`     | HN Items            |
+| `ArxivCollector`         | `arxiv.py`          | Research Papers     |
+| `GitHubCollector`        | `github.py`         | GitHub Repos        |
+| `AdzunaCollector`        | `jobs.py`           | Jobs                |
+| `TheMuseCollector`       | `jobs.py`           | Jobs                |
+| `YouTubeCollector`       | `youtube.py`        | Learning Resources  |
+| `MCPCollector`           | `mcp.py`            | MCP Servers         |
+| `TwitterCollector`       | `twitter.py`        | Tweets              |
 | `AIInvestmentsCollector` | `ai_investments.py` | Companies & Funding |
 
-### Base Collector
+### Base Collector - 185.158.133.1
 
 All collectors extend `BaseCollector` which provides:
+
 - HTTP client with retry logic
 - Rate limiting
 - Error handling
@@ -184,29 +186,29 @@ VALUES ('API Source', 'api-slug', 'api', 'https://api.example.com', true, true, 
 
 ## Data Collection Schedule
 
-| Frequency | Sources |
-|-----------|---------|
-| **30 min** | Hacker News, Y Combinator |
-| **60 min** | arXiv, GitHub, Papers With Code, Product Hunt, TechCrunch, VentureBeat, Towards Data Science, RemoteOK |
-| **120 min** | Adzuna, The Muse, Semantic Scholar, Company blogs, ML news |
-| **180 min** | YouTube |
-| **1440 min (daily)** | MCP Registry, Newsletters (The Batch, Import AI, The Gradient) |
+| Frequency            | Sources                                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| **30 min**           | Hacker News, Y Combinator                                                                              |
+| **60 min**           | arXiv, GitHub, Papers With Code, Product Hunt, TechCrunch, VentureBeat, Towards Data Science, RemoteOK |
+| **120 min**          | Adzuna, The Muse, Semantic Scholar, Company blogs, ML news                                             |
+| **180 min**          | YouTube                                                                                                |
+| **1440 min (daily)** | MCP Registry, Newsletters (The Batch, Import AI, The Gradient)                                         |
 
 ---
 
 ## API Documentation Links
 
-| Service | Documentation |
-|---------|---------------|
-| Product Hunt | https://api.producthunt.com/v2/docs |
-| YouTube Data API | https://developers.google.com/youtube/v3 |
-| GitHub API | https://docs.github.com/en/rest |
-| Adzuna | https://developer.adzuna.com/docs |
-| The Muse | https://www.themuse.com/developers/api/v2 |
-| arXiv | https://arxiv.org/help/api |
-| Semantic Scholar | https://api.semanticscholar.org/ |
-| Twitter/X | https://developer.twitter.com/en/docs |
-| Reddit | https://www.reddit.com/dev/api |
+| Service          | Documentation                             |
+| ---------------- | ----------------------------------------- |
+| Product Hunt     | https://api.producthunt.com/v2/docs       |
+| YouTube Data API | https://developers.google.com/youtube/v3  |
+| GitHub API       | https://docs.github.com/en/rest           |
+| Adzuna           | https://developer.adzuna.com/docs         |
+| The Muse         | https://www.themuse.com/developers/api/v2 |
+| arXiv            | https://arxiv.org/help/api                |
+| Semantic Scholar | https://api.semanticscholar.org/          |
+| Twitter/X        | https://developer.twitter.com/en/docs     |
+| Reddit           | https://www.reddit.com/dev/api            |
 
 ---
 
@@ -215,11 +217,13 @@ VALUES ('API Source', 'api-slug', 'api', 'https://api.example.com', true, true, 
 ### Source Not Collecting Data
 
 1. Check if source is active:
+
    ```sql
    SELECT * FROM api_sources WHERE slug = 'source-slug';
    ```
 
 2. Check for API key:
+
    ```bash
    grep "API_KEY" /backend/.env
    ```
@@ -238,4 +242,4 @@ VALUES ('API Source', 'api-slug', 'api', 'https://api.example.com', true, true, 
 
 ---
 
-*Last updated: December 2024*
+_Last updated: December 2024_

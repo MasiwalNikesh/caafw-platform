@@ -1,0 +1,40 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/caafw-platform
+
+            # Pull latest code
+            git pull origin main
+
+            # Rebuild and restart containers
+            docker compose build --no-cache backend frontend
+            docker compose up -d
+
+            # Clean up old images
+            docker image prune -f
+
+            # Show status
+            docker compose ps
+
+      - name: Health Check
+        run: |
+          sleep 30
+          curl -f https://caafw.org/api/v1/products || exit 1
+          echo "Deployment successful!"
