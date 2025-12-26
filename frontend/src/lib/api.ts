@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet } from '@/types';
+import type { PaginatedResponse, Product, Job, NewsArticle, ResearchPaper, LearningResource, MCPServer, Event, HackerNewsItem, GitHubRepo, Tweet, Company, FundingRound, LearningPath } from '@/types';
 
 // Dynamically determine API URL based on current hostname
 const getApiBaseUrl = () => {
@@ -186,15 +186,15 @@ export const investmentsAPI = {
     search?: string;
     sort_by?: 'total_funding' | 'last_funding_date' | 'founded_year' | 'created_at';
     sort_order?: 'asc' | 'desc';
-  }) => fetchAPI('/investments/companies', params),
+  }) => fetchAPI<PaginatedResponse<Company>>('/investments/companies', params),
 
-  getCompany: (id: number) => fetchAPI(`/investments/companies/${id}`),
+  getCompany: (id: number) => fetchAPI<Company>(`/investments/companies/${id}`),
 
   fundingRounds: (params?: {
     page?: number;
     page_size?: number;
     round_type?: string;
-  }) => fetchAPI('/investments/funding-rounds', params),
+  }) => fetchAPI<PaginatedResponse<FundingRound>>('/investments/funding-rounds', params),
 };
 
 // Search API
@@ -240,13 +240,13 @@ export const learningPathsAPI = {
     level?: string;
     is_featured?: boolean;
     search?: string;
-  }) => fetchAPI('/learning-paths', params),
+  }) => fetchAPI<PaginatedResponse<LearningPath>>('/learning-paths', params),
 
-  get: (id: number) => fetchAPI(`/learning-paths/${id}`),
+  get: (id: number) => fetchAPI<LearningPath>(`/learning-paths/${id}`),
 
-  recommendations: () => fetchAPI('/learning-paths/recommendations'),
+  recommendations: () => fetchAPI<LearningPath[]>('/learning-paths/recommendations'),
 
-  myProgress: () => fetchAPI('/learning-paths/my-progress'),
+  myProgress: () => fetchAPI<any[]>('/learning-paths/my-progress'),
 
   start: (id: number) => api.post(`/learning-paths/${id}/start`),
 
