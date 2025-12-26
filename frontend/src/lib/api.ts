@@ -123,7 +123,7 @@ export const mcpAPI = {
 
   getBySlug: (slug: string) => fetchAPI<MCPServer>(`/mcp-servers/slug/${slug}`),
 
-  categories: () => fetchAPI<string[]>('/mcp-servers/categories'),
+  categories: () => fetchAPI<any>('/mcp-servers/categories'),
 
   tags: (limit?: number) => fetchAPI<{ name: string; count: number }[]>('/mcp-servers/tags', { limit }),
 };
